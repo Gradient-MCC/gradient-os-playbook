@@ -1,0 +1,3697 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <title>Gradient OS — AI Transformation Playbook</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --gradient-primary: #6AC19D;
+      --gradient-secondary: #039DFF;
+      --gradient-accent: #EF7847;
+      --gradient-success: #6AC19D;
+      --gradient-warning: #FFD851;
+      --gradient-dark: #003F64;
+      --gradient-darker: #001D33;
+      --gradient-light: #f8fafc;
+      --gradient-muted: #8BB8D0;
+      --gradient-text: #B8D4E8;
+      --safe-area-bottom: env(safe-area-inset-bottom, 0px);
+      --safe-area-top: env(safe-area-inset-top, 0px);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    html, body {
+      height: 100%;
+      overflow: hidden;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--gradient-darker);
+      color: var(--gradient-light);
+    }
+
+    .presentation {
+      height: 100dvh;
+      width: 100%;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Progress Bar */
+    .progress-bar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--gradient-primary), var(--gradient-accent));
+      z-index: 1000;
+      transition: width 0.3s ease;
+    }
+
+    /* Header */
+    .header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      padding: calc(16px + var(--safe-area-top)) 24px 12px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 100;
+      background: linear-gradient(to bottom, rgba(2, 6, 23, 0.95), transparent);
+    }
+
+    .section-indicator {
+      font-size: 12px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: var(--gradient-muted);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .slide-counter-wrapper {
+      position: relative;
+      width: 56px;
+      height: 56px;
+      cursor: pointer;
+    }
+
+    .slide-counter-ring {
+      position: absolute;
+      inset: 0;
+      transform: rotate(-90deg);
+    }
+
+    .slide-counter-ring circle {
+      fill: none;
+      stroke-width: 3;
+    }
+
+    .slide-counter-ring .ring-bg {
+      stroke: rgba(255, 255, 255, 0.1);
+    }
+
+    .slide-counter-ring .ring-progress {
+      stroke: var(--gradient-primary);
+      stroke-linecap: round;
+      transition: stroke-dashoffset 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    .slide-counter {
+      position: absolute;
+      inset: 0;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--gradient-muted);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: color 0.2s ease;
+    }
+
+    .slide-counter-wrapper:hover .slide-counter {
+      color: var(--gradient-light);
+    }
+
+    .slide-counter-wrapper:hover .ring-progress {
+      stroke: var(--gradient-accent);
+    }
+
+    /* Slides */
+    .slides {
+      height: 100%;
+      width: 100%;
+    }
+
+    .slide {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.35s ease-out, transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+      transform: scale(0.96) translateY(10px);
+      overflow-y: auto;
+      overflow-x: hidden;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .slide.active {
+      opacity: 1;
+      visibility: visible;
+      transform: scale(1) translateY(0);
+    }
+
+    .slide.prev {
+      transform: scale(0.98) translateY(-5px);
+      opacity: 0;
+    }
+
+    /* Slide Inner Content */
+    .slide-inner {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      padding: 70px 64px calc(90px + var(--safe-area-bottom));
+      max-width: 1200px;
+      margin: 0 auto;
+      width: 100%;
+    }
+
+    /* Title Slides */
+    .slide.title-slide {
+      background: linear-gradient(135deg, var(--gradient-dark) 0%, var(--gradient-darker) 100%);
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+    }
+
+    .slide.title-slide::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at 30% 30%, rgba(106, 193, 157, 0.15) 0%, transparent 50%),
+                  radial-gradient(circle at 70% 70%, rgba(239, 120, 71, 0.10) 0%, transparent 50%);
+      pointer-events: none;
+    }
+
+    .slide.title-slide .slide-inner {
+      justify-content: center;
+      align-items: center;
+      max-width: 900px;
+    }
+
+    /* Section Slides */
+    .slide.section-slide {
+      background: linear-gradient(135deg, var(--gradient-primary) 0%, var(--gradient-secondary) 100%);
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+    }
+
+    .slide.section-slide .slide-inner {
+      justify-content: center;
+      align-items: center;
+      max-width: 800px;
+    }
+
+    /* Content Slides */
+    .slide.content-slide {
+      background: var(--gradient-dark);
+    }
+
+    .slide.content-slide .slide-inner {
+      justify-content: flex-start;
+    }
+
+    /* Typography */
+    .slide-icon {
+      font-size: 72px;
+      margin-bottom: 24px;
+      display: block;
+    }
+
+    .brand-logo {
+      height: 80px;
+      width: auto;
+      margin-bottom: 24px;
+      display: block;
+    }
+
+    /* Logo for section/divider slides - centered, medium size */
+    .brand-logo-section {
+      height: 56px;
+      width: auto;
+      margin-bottom: 20px;
+      display: block;
+    }
+
+    /* Logo for content slides - small, positioned in header */
+    .header-logo {
+      height: 28px;
+      width: auto;
+      opacity: 0.85;
+    }
+
+    .header {
+      gap: 12px;
+    }
+
+    .header-left {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    h1 {
+      font-size: 4rem;
+      font-weight: 800;
+      line-height: 1.1;
+      margin-bottom: 20px;
+      background: linear-gradient(135deg, #fff 0%, rgba(255,255,255,0.85) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    h2 {
+      font-size: 3rem;
+      font-weight: 700;
+      line-height: 1.2;
+      margin-bottom: 16px;
+    }
+
+    h3 {
+      font-size: 1.85rem;
+      font-weight: 700;
+      margin-bottom: 16px;
+      color: var(--gradient-light);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    h4 {
+      font-size: 1.15rem;
+      font-weight: 600;
+      margin-bottom: 10px;
+      color: var(--gradient-light);
+    }
+
+    .subtitle {
+      font-size: 1.5rem;
+      color: rgba(255,255,255,0.75);
+      font-weight: 400;
+      max-width: 700px;
+      line-height: 1.5;
+    }
+
+    .tagline {
+      font-size: 0.9rem;
+      color: var(--gradient-primary);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 3px;
+      margin-bottom: 16px;
+    }
+
+    /* Body Text */
+    .text-body {
+      font-size: 1.05rem;
+      line-height: 1.7;
+      color: var(--gradient-text);
+      margin-bottom: 16px;
+    }
+
+    .text-body strong {
+      color: var(--gradient-light);
+      font-weight: 600;
+    }
+
+    .text-lead {
+      font-size: 1.15rem;
+      line-height: 1.6;
+      color: var(--gradient-text);
+      margin-bottom: 20px;
+    }
+
+    /* Two Column Layout */
+    .two-columns {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 40px;
+      margin-top: 20px;
+    }
+
+    .column h4 {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+
+    .column .text-body {
+      font-size: 1rem;
+    }
+
+    /* Cards */
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 20px;
+      margin-top: 20px;
+    }
+
+    /* Symmetric card grids - force specific column counts */
+    .cards-grid.grid-2 { grid-template-columns: repeat(2, 1fr); }
+    .cards-grid.grid-3 { grid-template-columns: repeat(3, 1fr); }
+    .cards-grid.grid-4 { grid-template-columns: repeat(2, 1fr); } /* 2x2 for 4 cards */
+    .cards-grid.grid-6 { grid-template-columns: repeat(3, 1fr); } /* 3x2 for 6 cards */
+
+    .card {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 14px;
+      padding: 22px;
+      transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1),
+                  box-shadow 0.3s ease,
+                  background 0.2s ease,
+                  border-color 0.2s ease;
+    }
+
+    .card:hover {
+      background: rgba(255,255,255,0.06);
+      border-color: rgba(255,255,255,0.15);
+      transform: translateY(-8px) scale(1.02);
+      box-shadow: 0 16px 48px rgba(106, 193, 157, 0.12), 0 6px 16px rgba(0, 0, 0, 0.15);
+    }
+
+    .card-icon {
+      font-size: 32px;
+      margin-bottom: 12px;
+      display: block;
+    }
+
+    .card-title {
+      font-size: 1.1rem;
+      font-weight: 600;
+      margin-bottom: 10px;
+      color: var(--gradient-light);
+    }
+
+    .card-text {
+      font-size: 0.95rem;
+      color: var(--gradient-text);
+      line-height: 1.6;
+    }
+
+    /* Stats */
+    .stats-row {
+      display: flex;
+      gap: 48px;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin: 28px 0;
+    }
+
+    .stat {
+      text-align: center;
+    }
+
+    .stat-value {
+      font-size: 3.5rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, var(--gradient-primary), var(--gradient-accent));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      line-height: 1;
+    }
+
+    .stat-label {
+      font-size: 0.85rem;
+      color: var(--gradient-muted);
+      margin-top: 6px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    /* Lists */
+    .feature-list {
+      list-style: none;
+      margin-top: 12px;
+    }
+
+    .feature-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 16px;
+      padding: 14px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+
+    .feature-list li:last-child {
+      border-bottom: none;
+    }
+
+    .feature-list .icon {
+      font-size: 24px;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    .feature-list .content {
+      flex: 1;
+    }
+
+    .feature-list .title {
+      font-weight: 600;
+      font-size: 1.05rem;
+      margin-bottom: 6px;
+      color: var(--gradient-light);
+    }
+
+    .feature-list .desc {
+      font-size: 0.95rem;
+      color: var(--gradient-text);
+      line-height: 1.7;
+    }
+
+    /* Quote */
+    .quote-block {
+      background: rgba(99, 102, 241, 0.1);
+      border-left: 4px solid var(--gradient-primary);
+      padding: 20px 24px;
+      border-radius: 0 14px 14px 0;
+      margin: 20px 0;
+    }
+
+    .quote-text {
+      font-size: 1.2rem;
+      font-style: italic;
+      color: var(--gradient-light);
+      line-height: 1.5;
+    }
+
+    /* Callout */
+    .callout {
+      background: rgba(16, 185, 129, 0.1);
+      border: 1px solid rgba(16, 185, 129, 0.3);
+      border-radius: 10px;
+      padding: 16px 20px;
+      margin: 16px 0;
+    }
+
+    .callout.warning {
+      background: rgba(245, 158, 11, 0.1);
+      border-color: rgba(245, 158, 11, 0.3);
+    }
+
+    .callout-title {
+      font-weight: 600;
+      font-size: 0.95rem;
+      margin-bottom: 6px;
+      color: var(--gradient-light);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .callout-text {
+      font-size: 0.9rem;
+      color: var(--gradient-text);
+      line-height: 1.5;
+    }
+
+    /* Timeline */
+    .timeline {
+      position: relative;
+      padding-left: 36px;
+      margin-top: 16px;
+    }
+
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 10px;
+      top: 6px;
+      bottom: 6px;
+      width: 2px;
+      background: linear-gradient(to bottom, var(--gradient-primary), var(--gradient-accent));
+      border-radius: 2px;
+    }
+
+    .timeline-item {
+      position: relative;
+      padding-bottom: 20px;
+    }
+
+    .timeline-item:last-child {
+      padding-bottom: 0;
+    }
+
+    .timeline-item::before {
+      content: '';
+      position: absolute;
+      left: -28px;
+      top: 5px;
+      width: 12px;
+      height: 12px;
+      background: var(--gradient-primary);
+      border-radius: 50%;
+      border: 2px solid var(--gradient-dark);
+    }
+
+    .timeline-title {
+      font-weight: 600;
+      font-size: 1.05rem;
+      color: var(--gradient-light);
+      margin-bottom: 5px;
+    }
+
+    .timeline-text {
+      font-size: 0.95rem;
+      color: var(--gradient-text);
+      line-height: 1.6;
+    }
+
+    /* Funnel */
+    .funnel {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      max-width: 550px;
+      margin: 24px auto;
+    }
+
+    .funnel-stage {
+      padding: 16px 24px;
+      border-radius: 10px;
+      text-align: center;
+      font-weight: 600;
+      font-size: 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      transition: transform 0.2s ease;
+    }
+
+    .funnel-stage:hover {
+      transform: scale(1.02);
+    }
+
+    .funnel-stage.educate { background: linear-gradient(135deg, #3b82f6, #1d4ed8); width: 100%; }
+    .funnel-stage.attract { background: linear-gradient(135deg, #8b5cf6, #6d28d9); width: 88%; margin: 0 auto; }
+    .funnel-stage.convert { background: linear-gradient(135deg, #ec4899, #be185d); width: 76%; margin: 0 auto; }
+    .funnel-stage.hook { background: linear-gradient(135deg, #10b981, #047857); width: 64%; margin: 0 auto; }
+
+    /* Levels */
+    .levels-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+      margin: 24px 0;
+    }
+
+    .level-badge {
+      padding: 20px 14px;
+      border-radius: 14px;
+      text-align: center;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.08);
+      transition: all 0.3s ease;
+    }
+
+    .level-badge:hover {
+      transform: translateY(-3px);
+      background: rgba(255,255,255,0.06);
+    }
+
+    .level-badge .number {
+      font-size: 2rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, var(--gradient-primary), var(--gradient-accent));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .level-badge .name {
+      font-size: 0.95rem;
+      font-weight: 600;
+      margin-top: 10px;
+      color: var(--gradient-light);
+    }
+
+    .level-badge .desc {
+      font-size: 0.8rem;
+      color: var(--gradient-muted);
+      margin-top: 4px;
+    }
+
+    /* Sprint Visual */
+    .sprint-visual {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+      margin: 24px 0;
+    }
+
+    .sprint-week {
+      text-align: center;
+      padding: 18px 12px;
+      background: rgba(255,255,255,0.03);
+      border-radius: 14px;
+      border: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .sprint-week .icon-wrap {
+      width: 52px;
+      height: 52px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--gradient-primary), var(--gradient-secondary));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      margin: 0 auto 12px;
+    }
+
+    .sprint-week .week-label {
+      font-size: 0.75rem;
+      color: var(--gradient-muted);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 4px;
+    }
+
+    .sprint-week .week-name {
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--gradient-light);
+    }
+
+    /* Table */
+    .data-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 24px 0;
+    }
+
+    .data-table th,
+    .data-table td {
+      padding: 16px 20px;
+      text-align: left;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .data-table th {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--gradient-muted);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      background: rgba(255,255,255,0.02);
+    }
+
+    .data-table td {
+      font-size: 1rem;
+      color: var(--gradient-text);
+    }
+
+    .data-table tr:hover td {
+      background: rgba(255,255,255,0.02);
+    }
+
+    /* Tool Stack */
+    .tool-stack-grid {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 10px;
+      margin: 16px 0;
+    }
+
+    .tool-stack-category {
+      background: rgba(255,255,255,0.03);
+      border-radius: 10px;
+      overflow: hidden;
+      border: 1px solid rgba(255,255,255,0.06);
+    }
+
+    .tool-stack-header {
+      padding: 10px 8px;
+      text-align: center;
+      font-weight: 700;
+      font-size: 9px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: rgba(0,0,0,0.85);
+    }
+
+    .tool-stack-header.aichat { background: linear-gradient(135deg, #FF6B6B, #ee5a5a); }
+    .tool-stack-header.marketing { background: linear-gradient(135deg, #4ECDC4, #3dbdb5); }
+    .tool-stack-header.design { background: linear-gradient(135deg, #FFE66D, #ffd93d); }
+    .tool-stack-header.comms { background: linear-gradient(135deg, #95E1D3, #7ed4c4); }
+    .tool-stack-header.data { background: linear-gradient(135deg, #A8E6CF, #91dbbe); }
+    .tool-stack-header.infra { background: linear-gradient(135deg, #DDA0DD, #d18ed1); }
+    .tool-stack-header.research { background: linear-gradient(135deg, #87CEEB, #6bc1e3); }
+
+    .tool-stack-body {
+      padding: 10px 8px;
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+
+    .tool-stack-tier {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      padding: 8px 0;
+    }
+
+    .tool-stack-tier.core-tier { min-height: 130px; }
+    .tool-stack-tier.secondary-tier { min-height: 70px; }
+    .tool-stack-tier.alt-tier { min-height: 40px; }
+
+    .tool-stack-tier:not(:last-child) {
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+
+    .tool-stack-tier-label {
+      font-size: 8px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: rgba(255,255,255,0.3);
+      margin-bottom: 4px;
+    }
+
+    .tool-stack-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 8px;
+      border-radius: 6px;
+      font-size: 10px;
+      font-weight: 500;
+      transition: all 0.2s ease;
+    }
+
+    .tool-stack-item.core {
+      background: rgba(255,255,255,0.1);
+      color: #fff;
+      font-weight: 600;
+    }
+
+    .tool-stack-item.secondary {
+      background: rgba(255,255,255,0.05);
+      color: rgba(255,255,255,0.8);
+      font-size: 9px;
+    }
+
+    .tool-stack-item.alt {
+      background: rgba(255,255,255,0.02);
+      color: rgba(255,255,255,0.5);
+      font-size: 8px;
+    }
+
+    .tool-stack-item img {
+      width: 14px;
+      height: 14px;
+      border-radius: 3px;
+      flex-shrink: 0;
+    }
+
+    .tool-stack-item.core img { width: 16px; height: 16px; }
+    .tool-stack-item.alt img { width: 12px; height: 12px; }
+
+    .tool-stack-legend {
+      display: flex;
+      justify-content: center;
+      gap: 24px;
+      margin-top: 12px;
+      padding-top: 12px;
+      border-top: 1px solid rgba(255,255,255,0.06);
+    }
+
+    .tool-stack-legend-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 10px;
+      color: rgba(255,255,255,0.5);
+    }
+
+    .tool-stack-legend-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+    }
+
+    .tool-stack-legend-dot.core { background: var(--gradient-primary); }
+    .tool-stack-legend-dot.secondary { background: rgba(255,255,255,0.4); }
+    .tool-stack-legend-dot.alt { background: rgba(255,255,255,0.2); }
+
+    /* Navigation */
+    .navigation {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 20px 24px calc(20px + var(--safe-area-bottom));
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 100;
+      background: linear-gradient(to top, rgba(2, 6, 23, 0.98), rgba(2, 6, 23, 0.9), transparent);
+    }
+
+    .nav-btn {
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      border: none;
+      background: rgba(255,255,255,0.1);
+      color: var(--gradient-light);
+      font-size: 22px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s ease;
+    }
+
+    .nav-btn:hover {
+      background: rgba(255,255,255,0.2);
+    }
+
+    .nav-btn:active {
+      transform: scale(0.92);
+    }
+
+    .nav-btn:disabled {
+      opacity: 0.3;
+      cursor: not-allowed;
+    }
+
+    .nav-center {
+      display: flex;
+      gap: 10px;
+    }
+
+    .nav-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.2);
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .nav-dot.active {
+      background: var(--gradient-primary);
+      width: 32px;
+      border-radius: 5px;
+    }
+
+    /* Navigator Modal */
+    .slide-navigator {
+      position: fixed;
+      inset: 0;
+      z-index: 2000;
+      background: rgba(2, 6, 23, 0.98);
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s ease;
+      overflow-y: auto;
+      padding: calc(24px + var(--safe-area-top)) 24px calc(24px + var(--safe-area-bottom));
+    }
+
+    .slide-navigator.open {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .navigator-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 32px;
+      max-width: 1200px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .navigator-title {
+      font-size: 1.5rem;
+      font-weight: 600;
+    }
+
+    .navigator-close {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      border: none;
+      background: rgba(255,255,255,0.1);
+      color: var(--gradient-light);
+      font-size: 28px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .navigator-sections {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 32px;
+    }
+
+    .navigator-section {
+      background: rgba(255,255,255,0.02);
+      border-radius: 20px;
+      padding: 24px;
+    }
+
+    .navigator-section-title {
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--gradient-muted);
+      margin-bottom: 16px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .navigator-slides {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      gap: 16px;
+    }
+
+    .navigator-slide {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 12px;
+      padding: 20px 16px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      text-align: center;
+    }
+
+    .navigator-slide:hover {
+      background: rgba(255,255,255,0.08);
+      border-color: var(--gradient-primary);
+      transform: translateY(-2px);
+    }
+
+    .navigator-slide.current {
+      background: rgba(99, 102, 241, 0.2);
+      border-color: var(--gradient-primary);
+    }
+
+    .navigator-slide .num {
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--gradient-primary);
+      margin-bottom: 6px;
+    }
+
+    .navigator-slide .name {
+      font-size: 0.9rem;
+      font-weight: 500;
+      color: var(--gradient-light);
+      line-height: 1.4;
+    }
+
+    /* Mobile Responsive */
+    @media (max-width: 1024px) {
+      .slide-inner {
+        padding: 70px 40px calc(90px + var(--safe-area-bottom));
+      }
+
+      h1 { font-size: 3rem; }
+      h2 { font-size: 2.25rem; }
+      h3 { font-size: 1.6rem; }
+
+      .two-columns {
+        gap: 32px;
+      }
+
+      .cards-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .levels-grid,
+      .sprint-visual {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 768px) {
+      .slide-inner {
+        padding: 55px 20px calc(80px + var(--safe-area-bottom));
+      }
+
+      h1 { font-size: 2rem; }
+      h2 { font-size: 1.65rem; }
+      h3 { font-size: 1.3rem; }
+      .subtitle { font-size: 1rem; }
+      .text-body { font-size: 0.9rem; line-height: 1.5; margin-bottom: 10px; }
+      .text-lead { font-size: 0.95rem; line-height: 1.5; margin-bottom: 14px; }
+
+      .two-columns {
+        grid-template-columns: 1fr;
+        gap: 16px;
+      }
+
+      /* Force all card grids to single column on mobile */
+      .cards-grid,
+      .cards-grid.grid-2,
+      .cards-grid.grid-3,
+      .cards-grid.grid-4,
+      .cards-grid.grid-6 {
+        grid-template-columns: 1fr !important;
+        gap: 12px;
+      }
+
+      .card {
+        padding: 16px;
+      }
+
+      .card-icon {
+        font-size: 24px;
+        margin-bottom: 8px;
+      }
+
+      .card-title {
+        font-size: 1rem;
+        margin-bottom: 6px;
+      }
+
+      .card-text {
+        font-size: 0.85rem;
+        line-height: 1.45;
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+      }
+
+      .stats-row {
+        gap: 24px;
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+
+      .stat-value {
+        font-size: 2.5rem;
+      }
+
+      .stat-label {
+        font-size: 0.7rem;
+      }
+
+      .funnel-stage {
+        width: 100% !important;
+      }
+
+      .nav-btn {
+        width: 44px;
+        height: 44px;
+        font-size: 18px;
+      }
+
+      .header {
+        padding: calc(10px + var(--safe-area-top)) 12px 8px;
+      }
+
+      .header-logo {
+        height: 22px;
+      }
+
+      .section-indicator {
+        font-size: 9px;
+        max-width: 45%;
+      }
+
+      .brand-logo {
+        height: 56px;
+        margin-bottom: 16px;
+      }
+
+      .brand-logo-section {
+        height: 40px;
+        margin-bottom: 14px;
+      }
+
+      .feature-list li {
+        padding: 12px 0;
+      }
+
+      .feature-list .icon {
+        font-size: 20px;
+        margin-right: 12px;
+      }
+
+      .feature-list .title {
+        font-size: 0.95rem;
+      }
+
+      .feature-list .desc {
+        font-size: 0.8rem;
+        line-height: 1.4;
+      }
+
+      .timeline-item {
+        padding: 14px 0;
+      }
+
+      .timeline-title {
+        font-size: 0.95rem;
+      }
+
+      .timeline-text {
+        font-size: 0.8rem;
+        line-height: 1.4;
+      }
+
+      .quote-block {
+        padding: 16px;
+      }
+
+      .quote-text {
+        font-size: 1rem;
+      }
+
+      .callout {
+        padding: 14px;
+      }
+
+      .callout-title {
+        font-size: 0.95rem;
+      }
+
+      .callout-text {
+        font-size: 0.8rem;
+      }
+
+      .levels-grid,
+      .sprint-visual {
+        grid-template-columns: 1fr !important;
+        gap: 10px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .slide-inner {
+        padding: 50px 16px calc(75px + var(--safe-area-bottom));
+      }
+
+      h1 { font-size: 1.65rem; }
+      h2 { font-size: 1.4rem; }
+      h3 { font-size: 1.15rem; }
+      .subtitle { font-size: 0.9rem; }
+      .text-body { font-size: 0.85rem; }
+      .text-lead { font-size: 0.9rem; }
+
+      .slide-icon { font-size: 40px; }
+
+      .card { padding: 14px; }
+      .card-icon { font-size: 22px; margin-bottom: 6px; }
+      .card-title { font-size: 0.95rem; }
+      .card-text {
+        font-size: 0.8rem;
+        -webkit-line-clamp: 2;
+      }
+
+      .quote-block { padding: 14px; }
+      .quote-text { font-size: 0.95rem; }
+
+      .brand-logo {
+        height: 48px;
+        margin-bottom: 12px;
+      }
+
+      .brand-logo-section {
+        height: 36px;
+        margin-bottom: 12px;
+      }
+
+      .header-logo {
+        height: 20px;
+      }
+
+      .stats-row {
+        gap: 16px;
+      }
+
+      .stat-value {
+        font-size: 2rem;
+      }
+
+      .stat-label {
+        font-size: 0.65rem;
+      }
+
+      .levels-grid,
+      .sprint-visual {
+        gap: 8px;
+      }
+
+      .level-badge {
+        padding: 16px 10px;
+      }
+
+      .level-badge .number {
+        font-size: 1.75rem;
+      }
+
+      .feature-list .icon {
+        font-size: 18px;
+        margin-right: 10px;
+      }
+
+      .feature-list .title {
+        font-size: 0.9rem;
+      }
+
+      .feature-list .desc {
+        font-size: 0.75rem;
+      }
+
+      .timeline-title {
+        font-size: 0.9rem;
+      }
+
+      .timeline-text {
+        font-size: 0.75rem;
+      }
+
+      .callout {
+        padding: 12px;
+      }
+
+      .callout-title {
+        font-size: 0.9rem;
+      }
+
+      .callout-text {
+        font-size: 0.75rem;
+      }
+
+      .nav-btn {
+        width: 40px;
+        height: 40px;
+        font-size: 16px;
+      }
+
+      .section-indicator {
+        font-size: 8px;
+      }
+
+      .slide-counter-wrapper {
+        width: 44px;
+        height: 44px;
+      }
+
+      .slide-counter {
+        font-size: 10px;
+      }
+
+      .slide-counter-ring circle {
+        stroke-width: 2;
+      }
+    }
+
+    /* ==================== ANIMATIONS ==================== */
+
+    /* Keyframes */
+    @keyframes fadeSlideUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes fadeSlideIn {
+      from {
+        opacity: 0;
+        transform: translateX(-20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+
+    @keyframes scaleIn {
+      from {
+        opacity: 0;
+        transform: scale(0.95);
+      }
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-3px); }
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.02); opacity: 0.97; }
+    }
+
+    @keyframes iconPop {
+      0% { transform: scale(0.92); opacity: 0; }
+      70% { transform: scale(1.03); }
+      100% { transform: scale(1); opacity: 1; }
+    }
+
+    @keyframes shimmer {
+      0% { background-position: -200% center; }
+      100% { background-position: 200% center; }
+    }
+
+    @keyframes gradientShift {
+      0%, 100% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translate(0, 0) rotate(0deg); }
+      25% { transform: translate(10px, -15px) rotate(5deg); }
+      50% { transform: translate(-5px, -25px) rotate(-3deg); }
+      75% { transform: translate(-15px, -10px) rotate(3deg); }
+    }
+
+    @keyframes subtleFloat {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+
+    @keyframes glowPulse {
+      0%, 100% { box-shadow: 0 0 20px rgba(106, 193, 157, 0.3); }
+      50% { box-shadow: 0 0 40px rgba(106, 193, 157, 0.5), 0 0 60px rgba(239, 120, 71, 0.2); }
+    }
+
+    /* Content Entrance Animations - Cards (fast 40ms stagger) */
+    .slide.active .cards-grid .card {
+      opacity: 0;
+      animation: fadeSlideUp 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+    }
+    .slide.active .cards-grid .card:nth-child(1) { animation-delay: 0.05s; }
+    .slide.active .cards-grid .card:nth-child(2) { animation-delay: 0.09s; }
+    .slide.active .cards-grid .card:nth-child(3) { animation-delay: 0.13s; }
+    .slide.active .cards-grid .card:nth-child(4) { animation-delay: 0.17s; }
+    .slide.active .cards-grid .card:nth-child(5) { animation-delay: 0.21s; }
+    .slide.active .cards-grid .card:nth-child(6) { animation-delay: 0.25s; }
+
+    /* Content Entrance - Feature Lists (fast 35ms stagger) */
+    .slide.active .feature-list li {
+      opacity: 0;
+      animation: fadeSlideIn 0.35s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+    }
+    .slide.active .feature-list li:nth-child(1) { animation-delay: 0.08s; }
+    .slide.active .feature-list li:nth-child(2) { animation-delay: 0.115s; }
+    .slide.active .feature-list li:nth-child(3) { animation-delay: 0.15s; }
+    .slide.active .feature-list li:nth-child(4) { animation-delay: 0.185s; }
+    .slide.active .feature-list li:nth-child(5) { animation-delay: 0.22s; }
+    .slide.active .feature-list li:nth-child(6) { animation-delay: 0.255s; }
+
+    /* Content Entrance - Timeline Items (50ms stagger) */
+    .slide.active .timeline-item {
+      opacity: 0;
+      animation: fadeSlideUp 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+    }
+    .slide.active .timeline-item:nth-child(1) { animation-delay: 0.05s; }
+    .slide.active .timeline-item:nth-child(2) { animation-delay: 0.1s; }
+    .slide.active .timeline-item:nth-child(3) { animation-delay: 0.15s; }
+    .slide.active .timeline-item:nth-child(4) { animation-delay: 0.2s; }
+
+    /* Content Entrance - Stats (60ms stagger) */
+    .slide.active .stats-row .stat {
+      opacity: 0;
+      animation: scaleIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+    }
+    .slide.active .stats-row .stat:nth-child(1) { animation-delay: 0.1s; }
+    .slide.active .stats-row .stat:nth-child(2) { animation-delay: 0.16s; }
+    .slide.active .stats-row .stat:nth-child(3) { animation-delay: 0.22s; }
+
+    /* Content Entrance - Level Badges (45ms stagger) */
+    .slide.active .levels-grid .level-badge {
+      opacity: 0;
+      animation: fadeSlideUp 0.35s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+    }
+    .slide.active .levels-grid .level-badge:nth-child(1) { animation-delay: 0.05s; }
+    .slide.active .levels-grid .level-badge:nth-child(2) { animation-delay: 0.095s; }
+    .slide.active .levels-grid .level-badge:nth-child(3) { animation-delay: 0.14s; }
+    .slide.active .levels-grid .level-badge:nth-child(4) { animation-delay: 0.185s; }
+
+    /* Content Entrance - Sprint Visual (45ms stagger) */
+    .slide.active .sprint-visual .sprint-week {
+      opacity: 0;
+      animation: fadeSlideUp 0.35s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+    }
+    .slide.active .sprint-visual .sprint-week:nth-child(1) { animation-delay: 0.05s; }
+    .slide.active .sprint-visual .sprint-week:nth-child(2) { animation-delay: 0.095s; }
+    .slide.active .sprint-visual .sprint-week:nth-child(3) { animation-delay: 0.14s; }
+    .slide.active .sprint-visual .sprint-week:nth-child(4) { animation-delay: 0.185s; }
+
+    /* Content Entrance - Callouts */
+    .slide.active .callout {
+      opacity: 0;
+      animation: fadeSlideUp 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+      animation-delay: 0.2s;
+    }
+
+    /* Content Entrance - Quote Blocks */
+    .slide.active .quote-block {
+      opacity: 0;
+      animation: scaleIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+      animation-delay: 0.15s;
+    }
+
+    /* Title Slide - Special Entrance */
+    .slide.title-slide.active .brand-logo {
+      animation: iconPop 0.6s ease forwards;
+    }
+    .slide.title-slide.active h1 {
+      opacity: 0;
+      animation: fadeSlideUp 0.6s ease forwards;
+      animation-delay: 0.2s;
+    }
+    .slide.title-slide.active .subtitle {
+      opacity: 0;
+      animation: fadeSlideUp 0.6s ease forwards;
+      animation-delay: 0.35s;
+    }
+
+    /* Section Slide - Special Entrance */
+    .slide.section-slide.active h2 {
+      opacity: 0;
+      animation: scaleIn 0.6s ease forwards;
+      animation-delay: 0.1s;
+    }
+    .slide.section-slide.active .subtitle {
+      opacity: 0;
+      animation: fadeSlideUp 0.5s ease forwards;
+      animation-delay: 0.3s;
+    }
+
+    /* Icon Micro-animations */
+    .slide.active .card-icon {
+      animation: iconPop 0.4s ease forwards;
+      animation-delay: 0.3s;
+    }
+
+    .slide-icon:hover {
+      animation: bounce 0.5s ease;
+    }
+
+    /* Enhanced Nav Button Press */
+    .nav-btn:active {
+      transform: scale(0.88);
+    }
+
+    /* Progress Bar Shimmer */
+    .progress-bar {
+      background: linear-gradient(
+        90deg,
+        var(--gradient-primary),
+        var(--gradient-accent),
+        var(--gradient-primary)
+      );
+      background-size: 200% 100%;
+      animation: shimmer 3s ease-in-out infinite;
+    }
+
+    /* Background Pattern Overlay */
+    .presentation::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: radial-gradient(circle at 1px 1px, rgba(106, 193, 157, 0.03) 1px, transparent 1px);
+      background-size: 40px 40px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* Floating Particles Container */
+    .particles {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      overflow: hidden;
+      z-index: 0;
+    }
+
+    .particle {
+      position: absolute;
+      border-radius: 50%;
+      opacity: 0.04;
+      animation: float 20s ease-in-out infinite;
+    }
+
+    .particle:nth-child(1) {
+      width: 300px;
+      height: 300px;
+      background: radial-gradient(circle, var(--gradient-primary) 0%, transparent 70%);
+      top: 10%;
+      left: -5%;
+      animation-duration: 25s;
+    }
+
+    .particle:nth-child(2) {
+      width: 200px;
+      height: 200px;
+      background: radial-gradient(circle, var(--gradient-accent) 0%, transparent 70%);
+      top: 60%;
+      right: -3%;
+      animation-duration: 30s;
+      animation-delay: -5s;
+    }
+
+    .particle:nth-child(3) {
+      width: 150px;
+      height: 150px;
+      background: radial-gradient(circle, var(--gradient-secondary) 0%, transparent 70%);
+      bottom: 20%;
+      left: 20%;
+      animation-duration: 22s;
+      animation-delay: -10s;
+    }
+
+    .particle:nth-child(4) {
+      width: 100px;
+      height: 100px;
+      background: radial-gradient(circle, var(--gradient-primary) 0%, transparent 70%);
+      top: 30%;
+      right: 25%;
+      animation-duration: 28s;
+      animation-delay: -15s;
+    }
+
+    .particle:nth-child(5) {
+      width: 180px;
+      height: 180px;
+      background: radial-gradient(circle, var(--gradient-accent) 0%, transparent 70%);
+      bottom: 20%;
+      left: 15%;
+      animation-duration: 32s;
+      animation-delay: -8s;
+    }
+
+    .particle:nth-child(6) {
+      width: 120px;
+      height: 120px;
+      background: radial-gradient(circle, var(--gradient-primary) 0%, transparent 70%);
+      top: 60%;
+      right: 10%;
+      animation-duration: 26s;
+      animation-delay: -12s;
+    }
+
+    .particle:nth-child(7) {
+      width: 90px;
+      height: 90px;
+      background: radial-gradient(circle, var(--gradient-secondary) 0%, transparent 70%);
+      top: 15%;
+      left: 40%;
+      animation-duration: 30s;
+      animation-delay: -20s;
+    }
+
+    .particle:nth-child(8) {
+      width: 140px;
+      height: 140px;
+      background: radial-gradient(circle, var(--gradient-accent) 0%, transparent 70%);
+      bottom: 35%;
+      right: 35%;
+      animation-duration: 24s;
+      animation-delay: -5s;
+    }
+
+    /* Ultra-subtle particles for depth (nearly invisible) */
+    .particle.particle-subtle {
+      opacity: 0.015 !important;
+      filter: blur(30px);
+    }
+
+    .particle.particle-subtle:nth-child(9) {
+      width: 400px;
+      height: 400px;
+      background: radial-gradient(circle, var(--gradient-primary) 0%, transparent 60%);
+      top: -10%;
+      left: -5%;
+      animation-duration: 40s;
+    }
+
+    .particle.particle-subtle:nth-child(10) {
+      width: 350px;
+      height: 350px;
+      background: radial-gradient(circle, var(--gradient-accent) 0%, transparent 60%);
+      bottom: -5%;
+      right: -5%;
+      animation-duration: 45s;
+      animation-delay: -10s;
+    }
+
+    .particle.particle-subtle:nth-child(11) {
+      width: 300px;
+      height: 300px;
+      background: radial-gradient(circle, var(--gradient-secondary) 0%, transparent 60%);
+      top: 40%;
+      left: 50%;
+      animation-duration: 38s;
+      animation-delay: -18s;
+    }
+
+    .particle.particle-subtle:nth-child(12) {
+      width: 250px;
+      height: 250px;
+      background: radial-gradient(circle, var(--gradient-primary) 0%, transparent 60%);
+      bottom: 30%;
+      left: 20%;
+      animation-duration: 42s;
+      animation-delay: -25s;
+    }
+
+    /* Animated Gradient Background for Section Slides */
+    .slide.section-slide {
+      background: linear-gradient(135deg, var(--gradient-primary) 0%, var(--gradient-secondary) 50%, var(--gradient-primary) 100%);
+      background-size: 200% 200%;
+      animation: gradientShift 15s ease infinite;
+    }
+
+    /* Reduced motion preference */
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+
+    /* Print */
+    @media print {
+      .navigation, .progress-bar, .header, .slide-navigator { display: none !important; }
+      .slide {
+        position: relative !important;
+        page-break-after: always;
+        opacity: 1 !important;
+        visibility: visible !important;
+        transform: none !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="presentation">
+    <!-- Floating Particles Background -->
+    <div class="particles">
+      <div class="particle"></div>
+      <div class="particle"></div>
+      <div class="particle"></div>
+      <div class="particle"></div>
+      <div class="particle"></div>
+      <div class="particle"></div>
+      <div class="particle"></div>
+      <div class="particle"></div>
+      <div class="particle particle-subtle"></div>
+      <div class="particle particle-subtle"></div>
+      <div class="particle particle-subtle"></div>
+      <div class="particle particle-subtle"></div>
+    </div>
+
+    <div class="progress-bar" id="progressBar"></div>
+
+    <div class="header">
+      <div class="header-left">
+        <img src="https://begradient.com/wp-content/uploads/2022/07/cropped-cropped-cropped-GRAD_LOGO_green_nobg.png" alt="Gradient" class="header-logo">
+        <div class="section-indicator" id="sectionIndicator">
+          <span class="icon">🚀</span>
+          <span class="text">Introduction</span>
+        </div>
+      </div>
+      <div class="slide-counter-wrapper" onclick="toggleNavigator()">
+        <svg class="slide-counter-ring" viewBox="0 0 56 56">
+          <circle class="ring-bg" cx="28" cy="28" r="25"></circle>
+          <circle class="ring-progress" id="progressRing" cx="28" cy="28" r="25"
+                  stroke-dasharray="157" stroke-dashoffset="157"></circle>
+        </svg>
+        <div class="slide-counter" id="slideCounter">1 / 50</div>
+      </div>
+    </div>
+
+    <div class="slides" id="slides">
+
+      <!-- ==================== SLIDE 1: Title ==================== -->
+      <div class="slide title-slide active" data-section="Introduction" data-section-icon="🚀" data-title="Title">
+        <div class="slide-inner">
+          <img src="https://begradient.com/wp-content/uploads/2022/07/cropped-cropped-cropped-GRAD_LOGO_green_nobg.png" alt="Gradient" class="brand-logo">
+          <h1>AI Transformation Playbook</h1>
+          <p class="subtitle">A comprehensive guide to transforming Gradient from a service agency into a tech-enabled powerhouse through strategic AI adoption, team empowerment, and systematic innovation.</p>
+          <div class="stats-row">
+            <div class="stat">
+              <div class="stat-value">18</div>
+              <div class="stat-label">Month Journey</div>
+            </div>
+            <div class="stat">
+              <div class="stat-value">6</div>
+              <div class="stat-label">Teams</div>
+            </div>
+            <div class="stat">
+              <div class="stat-value">1</div>
+              <div class="stat-label">Unified Platform</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ==================== SLIDE 2: About This Document ==================== -->
+      <div class="slide content-slide" data-section="Introduction" data-section-icon="🚀" data-title="About This Document">
+        <div class="slide-inner">
+          <h3><span class="icon">📖</span> About This Document</h3>
+          <p class="text-lead">This playbook serves as the definitive reference for Gradient's AI transformation initiative. It is designed to be read, revisited, and referenced throughout our journey—not consumed in a single sitting.</p>
+
+          <div class="two-columns">
+            <div class="column">
+              <h4>📋 What This Document Contains</h4>
+              <p class="text-body">This playbook covers everything from our strategic vision and guiding principles to specific operational processes, tool standards, training programs, and success metrics. Each section builds upon the previous, creating a comprehensive framework for how we will transform our organization.</p>
+              <p class="text-body">Think of it as our constitution—a living document that defines who we are becoming, how we will get there, and what we expect from every team member along the way.</p>
+            </div>
+            <div class="column">
+              <h4>🎯 How to Use This Document</h4>
+              <p class="text-body"><strong>For leadership:</strong> Use this as the source of truth for strategic decisions, resource allocation, and progress tracking.</p>
+              <p class="text-body"><strong>For team leads:</strong> Reference specific sections when planning team activities, setting goals, or onboarding new AI initiatives.</p>
+              <p class="text-body"><strong>For all team members:</strong> Return to this document whenever you need clarity on our direction, processes, or expectations.</p>
+            </div>
+          </div>
+
+          <div class="callout">
+            <div class="callout-title">💡 Key Principle</div>
+            <div class="callout-text">This document will evolve. As we learn, iterate, and grow, this playbook will be updated to reflect our current understanding and practices. What you read today establishes our foundation; future versions will capture our progress.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ==================== SLIDE 3: The Big Question ==================== -->
+      <div class="slide section-slide" data-section="Context" data-section-icon="🎯" data-title="The Big Question">
+        <div class="slide-inner">
+          <h2>What if every team member could build their own AI tools?</h2>
+          <p class="subtitle">Not just use AI, but create solutions tailored to their specific challenges and workflows.</p>
+        </div>
+      </div>
+
+      <!-- ==================== SLIDE 4: Why Now ==================== -->
+      <div class="slide content-slide" data-section="Context" data-section-icon="🎯" data-title="Why Now">
+        <div class="slide-inner">
+          <h3><span class="icon">⏰</span> Why This Matters Now</h3>
+          <p class="text-lead">The marketing industry is experiencing a fundamental shift. AI is no longer a competitive advantage—it's becoming table stakes. Agencies that fail to adapt will find themselves outpaced by competitors who have integrated AI into every aspect of their operations.</p>
+
+          <p class="text-body">But there's a crucial distinction to understand: <strong>using AI tools is not the same as being AI-enabled.</strong> Many agencies have adopted ChatGPT, Midjourney, and similar tools. Few have built the infrastructure, culture, and capabilities to systematically create AI-powered solutions that compound over time.</p>
+
+          <p class="text-body">The opportunity in front of us is not just to use AI better—it's to become a different kind of company altogether. An agency that not only delivers exceptional client work but also builds and owns the tools that make that work possible. This transformation opens up entirely new business models: productized services, SaaS offerings, and intellectual property that generates recurring revenue.</p>
+
+          <div class="quote-block">
+            <p class="quote-text">"The best time to plant a tree was twenty years ago. The second best time is now. The same is true for building AI capabilities—except the window is measured in months, not decades."</p>
+          </div>
+
+          <p class="text-body">We have a choice: we can continue operating as a traditional agency that happens to use AI tools, or we can transform into a tech-enabled company that happens to offer agency services. This playbook charts the path to the latter.</p>
+        </div>
+      </div>
+
+      <!-- ==================== SLIDE 5: Current Reality ==================== -->
+      <div class="slide content-slide" data-section="Context" data-section-icon="🎯" data-title="Current Reality">
+        <div class="slide-inner">
+          <h3><span class="icon">📊</span> Where We Stand Today</h3>
+          <p class="text-lead">Before we can chart a path forward, we must honestly assess where we are. Our recent AI Activity Audit revealed both encouraging adoption and significant opportunities for improvement.</p>
+
+          <div class="cards-grid grid-4">
+            <div class="card">
+              <span class="card-icon">🔧</span>
+              <div class="card-title">Tool Fragmentation</div>
+              <div class="card-text">Our teams currently use over 10 different AI tools with no standardization. Each team has discovered and adopted tools independently, leading to duplicate subscriptions, inconsistent approaches, and no shared learning. What works well in one team remains unknown to others.</div>
+            </div>
+            <div class="card">
+              <span class="card-icon">👤</span>
+              <div class="card-title">Knowledge Concentration</div>
+              <div class="card-text">AI expertise is concentrated in a handful of individuals. When these people are busy or unavailable, entire teams lose access to AI-assisted workflows. There's no documented process for how we use AI, making it impossible to onboard new team members into our practices.</div>
+            </div>
+            <div class="card">
+              <span class="card-icon">📉</span>
+              <div class="card-title">Confidence Gap</div>
+              <div class="card-text">Our team's average self-reported AI confidence is 3 out of 5. This masks significant variation—some team members are highly proficient while others feel overwhelmed by the pace of change. Without structured support, this gap will only widen.</div>
+            </div>
+            <div class="card">
+              <span class="card-icon">⏳</span>
+              <div class="card-title">Unrealized Potential</div>
+              <div class="card-text">Countless hours are spent on repetitive tasks that could be automated. Meeting prep, research compilation, report formatting, data entry—these activities consume valuable time that could be redirected to creative and strategic work that actually moves the needle for clients.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ==================== SLIDE 6: Survey Insights ==================== -->
+      <div class="slide content-slide" data-section="Context" data-section-icon="🎯" data-title="Survey Insights">
+        <div class="slide-inner">
+          <h3><span class="icon">📋</span> What Our Team Told Us</h3>
+          <p class="text-lead">The AI Activity Audit surveyed team members across all departments. The responses paint a clear picture of both the appetite for AI adoption and the barriers that currently exist.</p>
+
+          <div class="two-columns">
+            <div class="column">
+              <h4>✅ Strong Support from Leadership</h4>
+              <p class="text-body">When asked to rate the importance of various AI initiatives on a scale of 1-5, our CEO rated the following all at maximum importance:</p>
+              <ul class="feature-list">
+                <li>
+                  <span class="icon">🏠</span>
+                  <div class="content">
+                    <div class="title">AI Hub</div>
+                    <div class="desc">A centralized platform where all AI tools and resources live</div>
+                  </div>
+                </li>
+                <li>
+                  <span class="icon">👥</span>
+                  <div class="content">
+                    <div class="title">Sprint Team</div>
+                    <div class="desc">A dedicated group driving AI initiatives forward</div>
+                  </div>
+                </li>
+                <li>
+                  <span class="icon">📚</span>
+                  <div class="content">
+                    <div class="title">Knowledge Base</div>
+                    <div class="desc">Documented processes and learnings accessible to all</div>
+                  </div>
+                </li>
+                <li>
+                  <span class="icon">🎯</span>
+                  <div class="content">
+                    <div class="title">AI Leadership</div>
+                    <div class="desc">Clear ownership and direction for AI strategy</div>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="column">
+              <h4>🎯 Clear Priorities Emerged</h4>
+              <p class="text-body">Across all respondents, consistent themes emerged about what the team needs most:</p>
+              <p class="text-body"><strong>Automation of manual tasks</strong> topped the list. Team members are acutely aware of time spent on repetitive work and eager for solutions that free them for higher-value activities.</p>
+              <p class="text-body"><strong>Tool standardization</strong> was frequently mentioned. The current fragmented approach creates confusion and prevents knowledge sharing.</p>
+              <p class="text-body"><strong>Training and support</strong> emerged as essential. Team members want to improve but need structured guidance on where to start and how to progress.</p>
+              <p class="text-body"><strong>Integration with existing workflows</strong> is non-negotiable. New tools must work within our current systems, not require wholesale changes to how we operate.</p>
+            </div>
+          </div>
+
+          <div class="callout warning">
+            <div class="callout-title">⚠️ Key Insight</div>
+            <div class="callout-text">The survey revealed that our team is not resistant to AI—they're hungry for it. The barriers are structural (lack of standardization, training, and ownership), not cultural. This is good news: we're solving for capability, not motivation.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ==================== SLIDE 7: Vision Section ==================== -->
+      <div class="slide section-slide" data-section="Vision" data-section-icon="🔮" data-title="Our Vision">
+        <div class="slide-inner">
+          <h2>The Vision</h2>
+          <p class="subtitle">Where we're going and exactly how we'll know when we've arrived</p>
+        </div>
+      </div>
+
+      <!-- ==================== SLIDE 8: Vision Statement ==================== -->
+      <div class="slide content-slide" data-section="Vision" data-section-icon="🔮" data-title="Vision Statement">
+        <div class="slide-inner">
+          <h3><span class="icon">🌟</span> Our North Star</h3>
+
+          <div class="quote-block">
+            <p class="quote-text">"Transform Gradient from a service agency into a tech-enabled company where every team member can create AI-powered solutions—first for ourselves, then for our clients."</p>
+          </div>
+
+          <p class="text-lead">This vision statement contains three critical components that deserve unpacking:</p>
+
+          <div class="cards-grid grid-3">
+            <div class="card">
+              <span class="card-icon">🏠</span>
+              <div class="card-title">Internal First, Client Second</div>
+              <div class="card-text">We will build tools for our own teams before deploying them to clients. This approach ensures we deeply understand the tools, work out the bugs, and can speak authentically about their value. Every tool gets at least 3 months of internal use before client deployment. We become our own best case study.</div>
+            </div>
+            <div class="card">
+              <span class="card-icon">👥</span>
+              <div class="card-title">Every Team Member as Creator</div>
+              <div class="card-text">Our goal is not to have an AI team that builds tools for others. Our goal is to enable every team member to identify problems and create solutions. This doesn't mean everyone writes code—it means everyone can conceptualize, prototype, and iterate on AI-powered workflows within their domain of expertise.</div>
+            </div>
+            <div class="card">
+              <span class="card-icon">💰</span>
+              <div class="card-title">Tech-Enabled + SaaS Opportunity</div>
+              <div class="card-text">We're not abandoning our agency roots—we're augmenting them. Service fees AND product revenue, reinforcing each other. The bigger vision: Gradient OS can serve users beyond our agency clients. Some will be OS users who never become clients. That's a new market entirely.</div>
+            </div>
+          </div>
+
+          <p class="text-body" style="margin-top: 24px;">Success looks like this: In 18 months, a new team member joins Gradient and finds a suite of AI-powered tools tailored to their role, clear documentation, and a pathway to contribute ideas. Externally, Gradient OS has users who may or may not be agency clients—opening a SaaS revenue stream alongside our service business.</p>
+        </div>
+      </div>
+
+      <!-- ==================== SLIDE 9: Transformation Journey ==================== -->
+      <div class="slide content-slide" data-section="Vision" data-section-icon="🔮" data-title="Transformation Journey">
+        <div class="slide-inner">
+          <h3><span class="icon">🚀</span> The Transformation Journey</h3>
+          <p class="text-lead">Transformation doesn't happen overnight. Our 18-month journey is structured into distinct phases, each building on the previous. Understanding these phases helps everyone know where we are and what comes next.</p>
+
+          <div class="timeline">
+            <div class="timeline-item">
+              <div class="timeline-title">📍 Today: Traditional Service Agency</div>
+              <div class="timeline-text">We deliver excellent client work through manual processes and individual expertise. AI tools are used ad-hoc by those who've discovered them. Knowledge lives in people's heads. Our revenue comes entirely from billable hours and project fees. We're good at what we do, but we're working harder, not smarter.</div>
+            </div>
+            <div class="timeline-item">
+              <div class="timeline-title">⚡ Phase 1: AI-Augmented Agency (Months 1-6)</div>
+              <div class="timeline-text">We establish the foundation: standardized tools, documented processes, and the AI Product Owners structure. Every team has representatives driving adoption. The first internal tools go live, proving the concept and generating early wins. Team confidence starts rising. We're still primarily a service agency, but we're working smarter.</div>
+            </div>
+            <div class="timeline-item">
+              <div class="timeline-title">🔧 Phase 2: Tool-Building Company (Months 7-12)</div>
+              <div class="timeline-text">The Gradient OS platform matures with workspaces for every team. We've shipped multiple tools that are in daily use. The innovation pipeline is flowing—ideas come in consistently, get built, and deploy to production. Some tools are ready for client pilots. We're now a service agency that builds its own tools.</div>
+            </div>
+            <div class="timeline-item">
+              <div class="timeline-title">🎯 Phase 3: Tech-Enabled Powerhouse (Months 13-18)</div>
+              <div class="timeline-text">Tools are deployed to paying clients. Recurring product revenue joins our service revenue. We're known in the industry for our AI-powered approach. Team members can't imagine working without the tools we've built. New hires are attracted by our tech-forward culture. We've become what we set out to be.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ==================== SLIDE 10: Framework Section ==================== -->
+      <div class="slide section-slide" data-section="Framework" data-section-icon="📐" data-title="Strategic Framework">
+        <div class="slide-inner">
+          <h2>Strategic Framework</h2>
+          <p class="subtitle">The EACH Funnel and GTM Motions that guide our priorities</p>
+        </div>
+      </div>
+
+      <!-- ==================== SLIDE 11: EACH Funnel Intro ==================== -->
+      <div class="slide content-slide" data-section="Framework" data-section-icon="📐" data-title="EACH Funnel">
+        <div class="slide-inner">
+          <h3><span class="icon">🎯</span> The EACH Funnel</h3>
+          <p class="text-lead">EACH is our internal go-to-market framework that structures how we think about customer acquisition and retention. Every AI tool we build should map to one or more stages of this funnel, ensuring our efforts drive business outcomes.</p>
+
+          <div class="funnel">
+            <div class="funnel-stage educate"><span>📚</span> Educate — Build Awareness & Authority</div>
+            <div class="funnel-stage attract"><span>🧲</span> Attract — Generate Interest & Leads</div>
+            <div class="funnel-stage convert"><span>💫</span> Convert — Drive Action & Close Deals</div>
+            <div class="funnel-stage hook"><span>🔗</span> Hook — Retain, Expand & Delight</div>
+          </div>
+
+          <p class="text-body"><strong>Educate</strong> is about establishing Gradient as a thought leader. AI tools here help us create educational content, research reports, and thought leadership pieces that build awareness and trust before prospects ever talk to sales.</p>
+
+          <p class="text-body"><strong>Attract</strong> converts awareness into active interest. These tools help us optimize for discoverability, nurture relationships, and generate qualified leads through valuable interactions.</p>
+
+          <p class="text-body"><strong>Convert</strong> turns interested prospects into paying clients. AI tools here accelerate proposals, enhance presentations, and provide insights that help close deals faster and more effectively.</p>
+
+          <p class="text-body"><strong>Hook</strong> is about retaining and expanding client relationships. These tools help us deliver exceptional ongoing value, identify expansion opportunities, and turn clients into advocates.</p>
+        </div>
+      </div>
+
+      <!-- ==================== SLIDE 12: EACH with Examples ==================== -->
+      <div class="slide content-slide" data-section="Framework" data-section-icon="📐" data-title="EACH Examples">
+        <div class="slide-inner">
+          <h3><span class="icon">🔧</span> EACH Funnel: AI Tool Examples</h3>
+          <p class="text-lead">Here's how AI tools we're building (or planning to build) map to each funnel stage:</p>
+
+          <div class="cards-grid grid-4">
+            <div class="card">
+              <span class="card-icon">📚</span>
+              <div class="card-title">Educate Stage Tools</div>
+              <div class="card-text">
+                <strong>Content Brief Generator:</strong> Creates comprehensive content briefs from keyword research<br><br>
+                <strong>Trend Monitor:</strong> Tracks industry trends and surfaces content opportunities<br><br>
+                <strong>Thought Leadership Assistant:</strong> Helps draft POV pieces and research reports
+              </div>
+            </div>
+            <div class="card">
+              <span class="card-icon">🧲</span>
+              <div class="card-title">Attract Stage Tools</div>
+              <div class="card-text">
+                <strong>SEO Optimizer:</strong> Analyzes and improves content for search visibility<br><br>
+                <strong>Lead Scoring Engine:</strong> Qualifies inbound leads based on behavior signals<br><br>
+                <strong>Personalization Engine:</strong> Tailors website experience to visitor context
+              </div>
+            </div>
+            <div class="card">
+              <span class="card-icon">💫</span>
+              <div class="card-title">Convert Stage Tools</div>
+              <div class="card-text">
+                <strong>Meeting Prep Agent:</strong> Researches prospects and prepares talking points<br><br>
+                <strong>Proposal Generator:</strong> Creates customized proposals from templates<br><br>
+                <strong>Objection Handler:</strong> Provides real-time responses to common objections
+              </div>
+            </div>
+            <div class="card">
+              <span class="card-icon">🔗</span>
+              <div class="card-title">Hook Stage Tools</div>
+              <div class="card-text">
+                <strong>Client Health Monitor:</strong> Tracks engagement signals and flags at-risk accounts<br><br>
+                <strong>Upsell Identifier:</strong> Spots expansion opportunities in client data<br><br>
+                <strong>Report Automator:</strong> Generates client reports with insights and recommendations
+              </div>
+            </div>
+          </div>
+
+          <div class="callout">
+            <div class="callout-title">💡 Prioritization Principle</div>
+            <div class="callout-text">When evaluating which tools to build, we consider funnel stage impact. Tools that accelerate conversion typically have the most immediate revenue impact, while tools that improve the hook stage build long-term client value. A balanced portfolio addresses all stages.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ==================== SLIDE 13: GTM Motions ==================== -->
+      <div class="slide content-slide" data-section="Framework" data-section-icon="📐" data-title="GTM Motions">
+        <div class="slide-inner">
+          <h3><span class="icon">🎪</span> The 7 GTM Motions</h3>
+          <p class="text-lead">Clients often hit a growth ceiling—a point where current approaches stop scaling. GTM motions are the strategic levers that break through. AI supercharges each motion, turning manual effort into scalable systems.</p>
+
+          <div class="two-columns">
+            <div class="column">
+              <ul class="feature-list">
+                <li>
+                  <span class="icon">📥</span>
+                  <div class="content">
+                    <div class="title">Inbound-Led</div>
+                    <div class="desc">Customers find us through content, SEO, and thought leadership. AI helps create more content, optimize for search, and nurture leads through valuable resources.</div>
+                  </div>
+                </li>
+                <li>
+                  <span class="icon">📤</span>
+                  <div class="content">
+                    <div class="title">Outbound-Led</div>
+                    <div class="desc">We proactively reach out to target accounts. AI helps identify prospects, research companies, personalize outreach, and track engagement signals.</div>
+                  </div>
+                </li>
+                <li>
+                  <span class="icon">🛠️</span>
+                  <div class="content">
+                    <div class="title">Product-Led</div>
+                    <div class="desc">The product itself drives acquisition and expansion. Our AI tools, when deployed as standalone products, become lead generators and revenue sources.</div>
+                  </div>
+                </li>
+                <li>
+                  <span class="icon">🤝</span>
+                  <div class="content">
+                    <div class="title">Sales-Led</div>
+                    <div class="desc">Human relationships drive deals. AI augments our sales team with research, preparation, and follow-up automation while keeping the human touch central.</div>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="column">
+              <ul class="feature-list">
+                <li>
+                  <span class="icon">🔗</span>
+                  <div class="content">
+                    <div class="title">Partner-Led</div>
+                    <div class="desc">Growth through ecosystem relationships. AI helps identify partner opportunities, manage relationships, and create co-marketing content.</div>
+                  </div>
+                </li>
+                <li>
+                  <span class="icon">👥</span>
+                  <div class="content">
+                    <div class="title">Community-Led</div>
+                    <div class="desc">Building engaged communities around shared interests. AI helps moderate discussions, surface insights, and create community content.</div>
+                  </div>
+                </li>
+                <li>
+                  <span class="icon">🎤</span>
+                  <div class="content">
+                    <div class="title">Event-Led</div>
+                    <div class="desc">Growth through webinars, workshops, and conferences. AI assists with event content, attendee engagement, and follow-up personalization.</div>
+                  </div>
+                </li>
+              </ul>
+
+              <div class="callout" style="margin-top: 24px;">
+                <div class="callout-title">🎯 Our Focus</div>
+                <div class="callout-text">Gradient currently operates primarily through Inbound-Led and Sales-Led motions. As we build AI tools, Product-Led becomes increasingly viable as a growth channel.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ==================== SLIDE 14: Platform Section ==================== -->
+      <div class="slide section-slide" data-section="Platform" data-section-icon="🏗️" data-title="The Platform">
+        <div class="slide-inner">
+          <h2>The Platform</h2>
+          <p class="subtitle">One unified platform, infinite possibilities for every team</p>
+        </div>
+      </div>
+
+      <!-- ==================== SLIDE 15: Platform Philosophy ==================== -->
+      <div class="slide content-slide" data-section="Platform" data-section-icon="🏗️" data-title="Platform Philosophy">
+        <div class="slide-inner">
+          <h3><span class="icon">🧠</span> Platform Philosophy</h3>
+          <p class="text-lead">Gradient OS is not just a collection of tools—it's a unified platform built on a consistent architecture that allows different teams to have specialized workspaces while sharing common infrastructure.</p>
+
+          <p class="text-body">The philosophy behind Gradient OS is <strong>modular specialization with shared foundations</strong>. Each team gets a workspace designed for their specific needs—the tools, interfaces, and workflows that make sense for what they do. But underneath, they all share the same authentication, data models, and integration layer.</p>
+
+          <p class="text-body">This architecture provides several critical advantages:</p>
+
+          <div class="cards-grid grid-3">
+            <div class="card">
+              <span class="card-icon">🔄</span>
+              <div class="card-title">Cross-Team Intelligence</div>
+              <div class="card-text">When the Sales workspace gathers company research, that intelligence is available to SEO for content targeting. When Content creates assets, they're accessible to Performance for ad campaigns. Knowledge flows across boundaries without manual transfer.</div>
+            </div>
+            <div class="card">
+              <span class="card-icon">⚡</span>
+              <div class="card-title">Faster Development</div>
+              <div class="card-text">New tools don't start from scratch. They build on proven components—authentication is solved, database patterns are established, UI components are ready. A new feature that might take weeks from zero can be built in days on Gradient OS.</div>
+            </div>
+            <div class="card">
+              <span class="card-icon">📈</span>
+              <div class="card-title">Scalable Quality</div>
+              <div class="card-text">Improvements to core components benefit all workspaces simultaneously. A performance optimization, security enhancement, or UX improvement ripples across the entire platform without team-by-team implementation.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ==================== SLIDE 16: Workspaces Overview ==================== -->
+      <div class="slide content-slide" data-section="Platform" data-section-icon="🏗️" data-title="Workspaces">
+        <div class="slide-inner">
+          <h3><span class="icon">🧩</span> Team Workspaces</h3>
+          <p class="text-lead">Each team at Gradient will have their own workspace within Gradient OS—a dedicated area with tools tailored to their specific workflows and challenges.</p>
+
+          <div class="cards-grid grid-6">
+            <div class="card">
+              <span class="card-icon">💼</span>
+              <div class="card-title">Sales Workspace</div>
+              <div class="card-text">The Sales workspace accelerates every stage of the sales process. <strong>Meeting Prep</strong> researches prospects and generates talking points. <strong>Company Research</strong> provides deep intelligence on target accounts. <strong>Proposal Generator</strong> creates customized proposals from templates. <strong>CRM Enrichment</strong> automatically updates contact and company records with fresh data.</div>
+            </div>
+            <div class="card">
+              <span class="card-icon">🔍</span>
+              <div class="card-title">SEO Workspace</div>
+              <div class="card-text">The SEO workspace handles the analytical and strategic work that powers organic growth. <strong>Keyword Research</strong> identifies opportunities with search volume and competition data. <strong>Content Briefs</strong> creates comprehensive outlines for writers. <strong>Technical Audits</strong> scan sites for SEO issues. <strong>Competitor Analysis</strong> tracks what's working for others in the space.</div>
+            </div>
+            <div class="card">
+              <span class="card-icon">📊</span>
+              <div class="card-title">Performance Workspace</div>
+              <div class="card-text">The Performance workspace optimizes paid media efforts. <strong>Ad Copy Generator</strong> creates variations for testing. <strong>Campaign Analysis</strong> identifies what's working and what's not. <strong>Audience Insights</strong> surfaces patterns in customer behavior. <strong>Budget Optimizer</strong> recommends allocation across channels.</div>
+            </div>
+            <div class="card">
+              <span class="card-icon">✏️</span>
+              <div class="card-title">Content Workspace</div>
+              <div class="card-text">The Content workspace supports creation at every stage. <strong>Article Generator</strong> produces drafts from briefs and outlines. <strong>Social Content</strong> adapts long-form content for social channels. <strong>Brand Voice</strong> ensures consistency across all outputs. <strong>Content Calendar</strong> manages the editorial pipeline.</div>
+            </div>
+            <div class="card">
+              <span class="card-icon">🔧</span>
+              <div class="card-title">HubSpot Workspace</div>
+              <div class="card-text">The HubSpot workspace automates CRM operations. <strong>Workflow Automation</strong> builds complex HubSpot workflows without manual configuration. <strong>Data Cleanup</strong> identifies and fixes data quality issues. <strong>Report Automation</strong> generates client reports on schedule. <strong>Integration Manager</strong> connects HubSpot to other systems.</div>
+            </div>
+            <div class="card">
+              <span class="card-icon">📈</span>
+              <div class="card-title">Strategy Workspace</div>
+              <div class="card-text">The Strategy workspace supports high-level thinking. <strong>Market Analysis</strong> synthesizes industry trends and market data. <strong>Competitive Intelligence</strong> tracks competitor moves and positioning. <strong>Trend Monitoring</strong> surfaces emerging opportunities. <strong>Strategic Planning</strong> helps structure and document strategic recommendations.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ==================== SLIDE 17: Tech Stack ==================== -->
+      <div class="slide content-slide" data-section="Platform" data-section-icon="🏗️" data-title="Tech Stack">
+        <div class="slide-inner">
+          <h3><span class="icon">⚙️</span> Technical Architecture</h3>
+          <p class="text-lead">Gradient OS is built on a modern, scalable tech stack chosen for developer productivity, reliability, and flexibility. Here's what powers the platform:</p>
+
+          <ul class="feature-list">
+            <li>
+              <span class="icon">⚛️</span>
+              <div class="content">
+                <div class="title">Next.js 16 + React 19</div>
+                <div class="desc">Our frontend framework provides server-side rendering for fast initial loads, app-router for intuitive navigation, and server components for efficient data fetching. React 19's concurrent features enable smooth, responsive interfaces even during complex operations.</div>
+              </div>
+            </li>
+            <li>
+              <span class="icon">🗄️</span>
+              <div class="content">
+                <div class="title">Supabase</div>
+                <div class="desc">Our backend platform handles database (PostgreSQL), authentication, real-time subscriptions, and file storage. Supabase's row-level security ensures data isolation between workspaces while its real-time features enable collaborative workflows.</div>
+              </div>
+            </li>
+            <li>
+              <span class="icon">🔄</span>
+              <div class="content">
+                <div class="title">n8n</div>
+                <div class="desc">Our workflow automation engine connects Gradient OS to external services. n8n's visual workflow builder makes it accessible to non-developers, while its self-hosted nature gives us full control over data and execution. Complex automations that would require custom code can be built in hours.</div>
+              </div>
+            </li>
+            <li>
+              <span class="icon">⏰</span>
+              <div class="content">
+                <div class="title">Inngest</div>
+                <div class="desc">Our background job system handles scheduled tasks, long-running operations, and event-driven workflows. Inngest's step functions enable complex, multi-stage processes with automatic retries and observability built in.</div>
+              </div>
+            </li>
+            <li>
+              <span class="icon">🤖</span>
+              <div class="content">
+                <div class="title">OpenAI + Claude + Specialized Models</div>
+                <div class="desc">Our AI layer isn't locked to a single provider. We use GPT-4 for general reasoning, Claude for long-context analysis, and specialized models for specific tasks. This flexibility lets us choose the best model for each use case and adapt as the landscape evolves.</div>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- ==================== SLIDE 18: Principles Section ==================== -->
+      <div class="slide section-slide" data-section="Principles" data-section-icon="💎" data-title="Guiding Principles">
+        <div class="slide-inner">
+          <h2>Guiding Principles</h2>
+          <p class="subtitle">The values and mindsets that shape how we work</p>
+        </div>
+      </div>
+
+      <!-- ==================== SLIDE 19: Budget Mindset ==================== -->
+      <div class="slide content-slide" data-section="Principles" data-section-icon="💎" data-title="Budget Mindset">
+        <div class="slide-inner">
+          <h3><span class="icon">💰</span> The Budget Mindset</h3>
+
+          <div class="quote-block">
+            <p class="quote-text">"Speed over perfection. Ship it, learn, iterate. A working prototype today beats a perfect solution next month."</p>
+          </div>
+
+          <p class="text-lead">We call our approach to building the "budget mindset"—not because we're cheap, but because we prioritize practical value over theoretical perfection.</p>
+
+          <p class="text-body">In a rapidly evolving AI landscape, the biggest risk isn't building something imperfect—it's waiting too long to build anything at all. Requirements change, better approaches emerge, and the problems we're solving evolve. The team that ships quickly, learns from real usage, and iterates will outpace the team that plans extensively and ships rarely.</p>
+
+          <div class="cards-grid grid-4">
+            <div class="card">
+              <span class="card-icon">🏃</span>
+              <div class="card-title">Move Fast</div>
+              <div class="card-text">Bias toward action. When choosing between spending another week planning and spending that week building and learning, choose building. Perfect information is a myth—we learn more from a deployed prototype than a detailed specification.</div>
+            </div>
+            <div class="card">
+              <span class="card-icon">🔧</span>
+              <div class="card-title">Stay Flexible</div>
+              <div class="card-text">Requirements will change. Build for adaptability, not permanence. Avoid over-engineering solutions for hypothetical future needs. It's easier to add complexity to a simple system than to simplify a complex one.</div>
+            </div>
+            <div class="card">
+              <span class="card-icon">📦</span>
+              <div class="card-title">Ship It</div>
+              <div class="card-text">Real feedback from real users trumps speculation. A tool that's 80% of the vision but in users' hands is more valuable than a tool that's 100% of the vision but still in development. Deploy early, deploy often.</div>
+            </div>
+            <div class="card">
+              <span class="card-icon">🎯</span>
+              <div class="card-title">Focus on Value</div>
+              <div class="card-text">Measure success by problems solved and time saved, not features built or code written. The goal isn't to build impressive technology—it's to make people's work better. Keep asking: "Is this actually helping someone?"</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ==================== SLIDE 20: Time Savings ==================== -->
+      <div class="slide content-slide" data-section="Principles" data-section-icon="💎" data-title="Measuring Impact">
+        <div class="slide-inner">
+          <h3><span class="icon">⏱️</span> Measuring What Matters</h3>
+          <p class="text-lead">We measure success by business impact, not vanity metrics. It's easy to get excited about AI adoption numbers or tool usage statistics—but these don't matter if they're not translating to real value.</p>
+
+          <p class="text-body">Our metrics connect operational improvements directly to business outcomes:</p>
+
+          <div class="cards-grid grid-4">
+            <div class="card">
+              <span class="card-icon">⏰</span>
+              <div class="card-title">Time Saved → Margin</div>
+              <div class="card-text">Hours reclaimed through AI tools directly impact profitability. Less time spent per deliverable means higher margins—we deliver the same value to clients while spending less. This is our primary business driver.</div>
+            </div>
+            <div class="card">
+              <span class="card-icon">🔄</span>
+              <div class="card-title">Task Automation → Turnover</div>
+              <div class="card-text">Automated workflows compound over time, contributing to both margin improvement and revenue growth. Each automated task creates capacity for more client work without additional headcount.</div>
+            </div>
+            <div class="card">
+              <span class="card-icon">📈</span>
+              <div class="card-title">Quality Improved → NPS</div>
+              <div class="card-text">Fewer errors, more consistency, faster delivery. Quality improvements drive client satisfaction (NPS), leading to referrals and retention. Happy clients stay longer and recommend us more.</div>
+            </div>
+            <div class="card">
+              <span class="card-icon">😊</span>
+              <div class="card-title">Team Satisfaction → ENPS</div>
+              <div class="card-text">When people spend less time on tedious work, they're happier. Higher Employee NPS means better retention, stronger culture, and more engaged teams. Everyone wins—the team, the clients, the company.</div>
+            </div>
+          </div>
+
+          <div class="callout">
+            <div class="callout-title">💡 The Business Impact Chain</div>
+            <div class="callout-text">Time saved → Higher margin. Happy team (ENPS) → Better retention. Quality work (NPS) → Client growth. It all connects. The OS exists to improve these four business metrics: Margin, Turnover, NPS, and ENPS.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ==================== SLIDE 21: Internal First ==================== -->
+      <div class="slide content-slide" data-section="Principles" data-section-icon="💎" data-title="Internal First">
+        <div class="slide-inner">
+          <h3><span class="icon">🏠</span> Internal First, Always</h3>
+          <p class="text-lead">Every tool we build gets proven internally before we ever consider deploying it to clients. This isn't just a nice principle—it's a strategic advantage.</p>
+
+          <div class="two-columns">
+            <div class="column">
+              <h4>🔬 Why Internal First Works</h4>
+              <p class="text-body"><strong>We become the experts.</strong> By using our own tools daily, we develop deep expertise that translates to better client implementations and support.</p>
+              <p class="text-body"><strong>We find the bugs.</strong> Internal usage surfaces edge cases and issues that would embarrass us if discovered by clients. Better to fix them ourselves first.</p>
+              <p class="text-body"><strong>We build authentic case studies.</strong> When we tell clients a tool saved us X hours per week, we're speaking from actual experience, not theoretical projections.</p>
+              <p class="text-body"><strong>We iterate faster.</strong> Internal feedback loops are shorter. We can ship a change in the morning and hear feedback by afternoon.</p>
+            </div>
+            <div class="column">
+              <h4>📅 The 3-Month Rule</h4>
+              <p class="text-body">No tool moves to client deployment until it has been in internal production use for at least 3 months. This period ensures we've:</p>
+              <p class="text-body">• Encountered and resolved common issues</p>
+              <p class="text-body">• Iterated on the UX based on real usage patterns</p>
+              <p class="text-body">• Documented the tool thoroughly</p>
+              <p class="text-body">• Developed training materials</p>
+              <p class="text-body">• Measured actual time savings and quality improvements</p>
+              <p class="text-body">• Identified which client segments would benefit most</p>
+
+              <div class="callout" style="margin-top: 16px;">
+                <div class="callout-title">🎯 Exception Criteria</div>
+                <div class="callout-text">The 3-month rule can be shortened only if a client explicitly requests early access, understands the tool is still maturing, and agrees to provide structured feedback.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ==================== SLIDE 22: Tools Section ==================== -->
+      <div class="slide section-slide" data-section="Tools" data-section-icon="🛠️" data-title="Tool Standards">
+        <div class="slide-inner">
+          <h2>Tool Standardization</h2>
+          <p class="subtitle">One approved stack, clear ownership, documented processes</p>
+        </div>
+      </div>
+
+      <!-- ==================== SLIDE 23: Why Standardize ==================== -->
+      <div class="slide content-slide" data-section="Tools" data-section-icon="🛠️" data-title="Why Standardize">
+        <div class="slide-inner">
+          <h3><span class="icon">🎯</span> Why Standardization Matters</h3>
+          <p class="text-lead">Tool fragmentation is one of the biggest barriers to effective AI adoption. When every team uses different tools, we lose the ability to share knowledge, compound our learning, and build on each other's work.</p>
+
+          <p class="text-body">Standardization doesn't mean limiting creativity or forcing everyone into the same workflow. It means agreeing on a common foundation that enables collaboration while still allowing team-specific customization.</p>
+
+          <div class="cards-grid grid-4">
+            <div class="card">
+              <span class="card-icon">📚</span>
+              <div class="card-title">Knowledge Sharing</div>
+              <div class="card-text">When everyone uses the same tools, a discovery in one team becomes available to all. The prompt that works great for SEO content can be adapted by Content. The workflow that saves Sales time can inspire Performance. We build on each other's learning instead of starting from scratch.</div>
+            </div>
+            <div class="card">
+              <span class="card-icon">💰</span>
+              <div class="card-title">Cost Efficiency</div>
+              <div class="card-text">Consolidated subscriptions reduce total spend and simplify expense management. Enterprise agreements become possible when we're buying as one organization rather than dozens of individual accounts. IT overhead decreases when there are fewer tools to manage.</div>
+            </div>
+            <div class="card">
+              <span class="card-icon">🔒</span>
+              <div class="card-title">Security & Compliance</div>
+              <div class="card-text">Each tool represents a potential security surface and data processing concern. Fewer tools means fewer vectors to secure and fewer privacy policies to review. We can invest more deeply in understanding and securing a smaller set of vetted tools.</div>
+            </div>
+            <div class="card">
+              <span class="card-icon">🎓</span>
+              <div class="card-title">Training Efficiency</div>
+              <div class="card-text">Training resources can be developed once and used across the organization. New hires get up to speed faster when the tool stack is consistent. Expertise can be developed and shared rather than siloed by team.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ==================== SLIDE 24: Approved Tools ==================== -->
+      <div class="slide content-slide" data-section="Tools" data-section-icon="🛠️" data-title="Approved Tools">
+        <div class="slide-inner">
+          <h3><span class="icon">✅</span> The Approved Tool Stack</h3>
+          <p class="text-lead">These are the AI tools officially supported at Gradient. Each has been vetted for capability, security, and fit with our workflows. Using approved tools ensures you have access to training, support, and shared best practices.</p>
+
+          <div class="tool-stack-grid">
+            <!-- AI Chat -->
+            <div class="tool-stack-category">
+              <div class="tool-stack-header aichat">AI Chat</div>
+              <div class="tool-stack-body">
+                <div class="tool-stack-tier core-tier">
+                  <div class="tool-stack-tier-label">Core</div>
+                  <div class="tool-stack-item core"><img src="https://www.google.com/s2/favicons?domain=openai.com&sz=128" alt="">ChatGPT</div>
+                  <div class="tool-stack-item core"><img src="https://www.google.com/s2/favicons?domain=claude.ai&sz=128" alt="">Claude</div>
+                </div>
+                <div class="tool-stack-tier secondary-tier">
+                  <div class="tool-stack-tier-label">Secondary</div>
+                  <div class="tool-stack-item secondary"><img src="https://www.google.com/s2/favicons?domain=gemini.google.com&sz=128" alt="">Gemini</div>
+                </div>
+                <div class="tool-stack-tier alt-tier">
+                  <div class="tool-stack-tier-label">Alternatives</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Marketing -->
+            <div class="tool-stack-category">
+              <div class="tool-stack-header marketing">Marketing</div>
+              <div class="tool-stack-body">
+                <div class="tool-stack-tier core-tier">
+                  <div class="tool-stack-tier-label">Core</div>
+                  <div class="tool-stack-item core"><img src="https://www.google.com/s2/favicons?domain=hubspot.com&sz=128" alt="">HubSpot</div>
+                  <div class="tool-stack-item core"><img src="https://www.google.com/s2/favicons?domain=linkedin.com&sz=128" alt="">LinkedIn</div>
+                </div>
+                <div class="tool-stack-tier secondary-tier">
+                  <div class="tool-stack-tier-label">Secondary</div>
+                  <div class="tool-stack-item secondary"><img src="https://www.google.com/s2/favicons?domain=heyreach.io&sz=128" alt="">HeyReach</div>
+                  <div class="tool-stack-item secondary"><img src="https://www.google.com/s2/favicons?domain=semrush.com&sz=128" alt="">Semrush</div>
+                </div>
+                <div class="tool-stack-tier alt-tier">
+                  <div class="tool-stack-tier-label">Alternatives</div>
+                  <div class="tool-stack-item alt"><img src="https://www.google.com/s2/favicons?domain=trigify.io&sz=128" alt="">Trigify</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Design -->
+            <div class="tool-stack-category">
+              <div class="tool-stack-header design">Design</div>
+              <div class="tool-stack-body">
+                <div class="tool-stack-tier core-tier">
+                  <div class="tool-stack-tier-label">Core</div>
+                  <div class="tool-stack-item core"><img src="https://www.google.com/s2/favicons?domain=figma.com&sz=128" alt="">Figma</div>
+                  <div class="tool-stack-item core"><img src="https://www.google.com/s2/favicons?domain=canva.com&sz=128" alt="">Canva</div>
+                </div>
+                <div class="tool-stack-tier secondary-tier">
+                  <div class="tool-stack-tier-label">Secondary</div>
+                  <div class="tool-stack-item secondary"><img src="https://www.google.com/s2/favicons?domain=slides.google.com&sz=128" alt="">Google Slides</div>
+                </div>
+                <div class="tool-stack-tier alt-tier">
+                  <div class="tool-stack-tier-label">Alternatives</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Comms -->
+            <div class="tool-stack-category">
+              <div class="tool-stack-header comms">Comms</div>
+              <div class="tool-stack-body">
+                <div class="tool-stack-tier core-tier">
+                  <div class="tool-stack-tier-label">Core</div>
+                  <div class="tool-stack-item core"><img src="https://www.google.com/s2/favicons?domain=slack.com&sz=128" alt="">Slack</div>
+                  <div class="tool-stack-item core"><img src="https://www.google.com/s2/favicons?domain=gmail.com&sz=128" alt="">Gmail</div>
+                  <div class="tool-stack-item core"><img src="https://www.google.com/s2/favicons?domain=loom.com&sz=128" alt="">Loom</div>
+                  <div class="tool-stack-item core"><img src="https://www.google.com/s2/favicons?domain=fathom.video&sz=128" alt="">Fathom</div>
+                </div>
+                <div class="tool-stack-tier secondary-tier">
+                  <div class="tool-stack-tier-label">Secondary</div>
+                  <div class="tool-stack-item secondary"><img src="https://www.google.com/s2/favicons?domain=whatsapp.com&sz=128" alt="">WhatsApp</div>
+                </div>
+                <div class="tool-stack-tier alt-tier">
+                  <div class="tool-stack-tier-label">Alternatives</div>
+                  <div class="tool-stack-item alt"><img src="https://www.google.com/s2/favicons?domain=fireflies.ai&sz=128" alt="">Fireflies</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Data -->
+            <div class="tool-stack-category">
+              <div class="tool-stack-header data">Data</div>
+              <div class="tool-stack-body">
+                <div class="tool-stack-tier core-tier">
+                  <div class="tool-stack-tier-label">Core</div>
+                  <div class="tool-stack-item core"><img src="https://www.google.com/s2/favicons?domain=airtable.com&sz=128" alt="">Airtable</div>
+                  <div class="tool-stack-item core"><img src="https://www.google.com/s2/favicons?domain=analytics.google.com&sz=128" alt="">GA4</div>
+                  <div class="tool-stack-item core"><img src="https://www.google.com/s2/favicons?domain=firecrawl.dev&sz=128" alt="">Firecrawl</div>
+                </div>
+                <div class="tool-stack-tier secondary-tier">
+                  <div class="tool-stack-tier-label">Secondary</div>
+                  <div class="tool-stack-item secondary"><img src="https://www.google.com/s2/favicons?domain=typeform.com&sz=128" alt="">Typeform</div>
+                  <div class="tool-stack-item secondary"><img src="https://www.google.com/s2/favicons?domain=perplexity.ai&sz=128" alt="">Perplexity</div>
+                </div>
+                <div class="tool-stack-tier alt-tier">
+                  <div class="tool-stack-tier-label">Alternatives</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Infra -->
+            <div class="tool-stack-category">
+              <div class="tool-stack-header infra">Infra</div>
+              <div class="tool-stack-body">
+                <div class="tool-stack-tier core-tier">
+                  <div class="tool-stack-tier-label">Core</div>
+                  <div class="tool-stack-item core"><img src="https://www.google.com/s2/favicons?domain=n8n.io&sz=128" alt="">n8n</div>
+                  <div class="tool-stack-item core"><img src="https://www.google.com/s2/favicons?domain=claude.ai&sz=128" alt="">Claude Code</div>
+                  <div class="tool-stack-item core"><img src="https://www.google.com/s2/favicons?domain=supabase.com&sz=128" alt="">Supabase</div>
+                  <div class="tool-stack-item core"><img src="https://www.google.com/s2/favicons?domain=code.visualstudio.com&sz=128" alt="">VS Code</div>
+                </div>
+                <div class="tool-stack-tier secondary-tier">
+                  <div class="tool-stack-tier-label">Secondary</div>
+                  <div class="tool-stack-item secondary"><img src="https://www.google.com/s2/favicons?domain=make.com&sz=128" alt="">Make</div>
+                </div>
+                <div class="tool-stack-tier alt-tier">
+                  <div class="tool-stack-tier-label">Alternatives</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Research -->
+            <div class="tool-stack-category">
+              <div class="tool-stack-header research">Research</div>
+              <div class="tool-stack-body">
+                <div class="tool-stack-tier core-tier">
+                  <div class="tool-stack-tier-label">Core</div>
+                  <div class="tool-stack-item core"><img src="https://www.google.com/s2/favicons?domain=clay.com&sz=128" alt="">Clay</div>
+                </div>
+                <div class="tool-stack-tier secondary-tier">
+                  <div class="tool-stack-tier-label">Secondary</div>
+                  <div class="tool-stack-item secondary"><img src="https://www.google.com/s2/favicons?domain=leadinfo.com&sz=128" alt="">Leadinfo</div>
+                  <div class="tool-stack-item secondary"><img src="https://www.google.com/s2/favicons?domain=lemlist.com&sz=128" alt="">Lemlist</div>
+                </div>
+                <div class="tool-stack-tier alt-tier">
+                  <div class="tool-stack-tier-label">Alternatives</div>
+                  <div class="tool-stack-item alt"><img src="https://www.google.com/s2/favicons?domain=smartlead.ai&sz=128" alt="">Smartlead</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="tool-stack-legend">
+            <div class="tool-stack-legend-item"><div class="tool-stack-legend-dot core"></div><span>Core — Primary tools</span></div>
+            <div class="tool-stack-legend-item"><div class="tool-stack-legend-dot secondary"></div><span>Secondary — Regular use</span></div>
+            <div class="tool-stack-legend-item"><div class="tool-stack-legend-dot alt"></div><span>Alternatives — Options</span></div>
+          </div>
+
+          <div class="callout warning">
+            <div class="callout-title">⚠️ Using Non-Approved Tools</div>
+            <div class="callout-text">If you discover a tool that would significantly benefit your work, don't just start using it. Submit it through the intake pipeline for evaluation. We want to adopt great tools—but we need to vet them for security, cost, and strategic fit first.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ==================== SLIDE 25: Tool Ownership ==================== -->
+      <div class="slide content-slide" data-section="Tools" data-section-icon="🛠️" data-title="Tool Ownership">
+        <div class="slide-inner">
+          <h3><span class="icon">👤</span> Tool Ownership Model</h3>
+          <p class="text-lead">Every approved tool has an assigned owner responsible for ensuring the organization gets maximum value from that tool. Ownership doesn't mean exclusive use—it means accountable stewardship.</p>
+
+          <div class="two-columns">
+            <div class="column">
+              <h4>📋 Owner Responsibilities</h4>
+              <ul class="feature-list">
+                <li>
+                  <span class="icon">📚</span>
+                  <div class="content">
+                    <div class="title">Documentation</div>
+                    <div class="desc">Maintain up-to-date usage guidelines, best practices, and example workflows in the knowledge base</div>
+                  </div>
+                </li>
+                <li>
+                  <span class="icon">🎓</span>
+                  <div class="content">
+                    <div class="title">Training</div>
+                    <div class="desc">Run onboarding sessions for new users and periodic advanced workshops for existing users</div>
+                  </div>
+                </li>
+                <li>
+                  <span class="icon">🆘</span>
+                  <div class="content">
+                    <div class="title">Support</div>
+                    <div class="desc">Serve as first point of contact for questions and issues. Escalate to vendor when needed</div>
+                  </div>
+                </li>
+                <li>
+                  <span class="icon">📈</span>
+                  <div class="content">
+                    <div class="title">Evolution</div>
+                    <div class="desc">Track tool updates, evaluate new features, and recommend when alternatives should be considered</div>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="column">
+              <h4>🎯 Why Ownership Works</h4>
+              <p class="text-body">Without clear ownership, tools become orphans—adopted enthusiastically, then neglected as attention moves elsewhere. Knowledge concentrates in early adopters who leave, taking expertise with them.</p>
+              <p class="text-body">Ownership creates accountability. When someone is responsible for a tool's success, they have incentive to:</p>
+              <p class="text-body">• Stay current with updates and best practices</p>
+              <p class="text-body">• Proactively identify and solve user problems</p>
+              <p class="text-body">• Build institutional knowledge that persists beyond individuals</p>
+              <p class="text-body">• Advocate for the tool's appropriate use (and against its misuse)</p>
+              <p class="text-body">Tool owners are typically AI Product Owners or team leads with natural affinity for the tool's domain.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ==================== SLIDE 26: Operating Model Section ==================== -->
+      <div class="slide section-slide" data-section="Operating Model" data-section-icon="⚡" data-title="How We Work">
+        <div class="slide-inner">
+          <h2>Operating Model</h2>
+          <p class="subtitle">The structure, processes, and rhythms that make transformation happen</p>
+        </div>
+      </div>
+
+      <!-- ==================== SLIDE 27: AI Product Owners Overview ==================== -->
+      <div class="slide content-slide" data-section="Operating Model" data-section-icon="⚡" data-title="AI Product Owners">
+        <div class="slide-inner">
+          <h3><span class="icon">🤖</span> AI Product Ownership</h3>
+          <p class="text-lead">AI Product Ownership is our distributed model for AI adoption. Rather than a centralized AI team that builds for everyone else, we normalize AI skills across all disciplines—Sales, Content, Performance, and every other specialization.</p>
+
+          <p class="text-body">AI Product Owners emerge organically from passionate people across the organization. These aren't necessarily the most technical people—they're the ones with curiosity about AI, willingness to experiment, and influence to bring their colleagues along. They serve as the bridge between centralized AI strategy and discipline-specific implementation. Each discipline (what we call POTS—our functional teams) has representation in the AI Product Owner network.</p>
+
+          <div class="cards-grid grid-6">
+            <div class="card">
+              <span class="card-icon">💼</span>
+              <div class="card-title">Sales Rep</div>
+              <div class="card-text">Champions AI tools within the sales team. Focuses on research automation, meeting prep, and CRM enhancement. Understands the sales process deeply and can identify where AI adds value without disrupting client relationships.</div>
+            </div>
+            <div class="card">
+              <span class="card-icon">🔍</span>
+              <div class="card-title">SEO Rep</div>
+              <div class="card-text">Drives SEO automation initiatives. Focuses on keyword research, content brief generation, and technical audit tools. Brings deep SEO expertise to ensure AI outputs meet quality standards.</div>
+            </div>
+            <div class="card">
+              <span class="card-icon">📊</span>
+              <div class="card-title">Performance Rep</div>
+              <div class="card-text">Leads AI adoption for paid media. Focuses on ad copy generation, campaign analysis, and audience insights. Ensures AI tools integrate with existing ad platforms and workflows.</div>
+            </div>
+            <div class="card">
+              <span class="card-icon">✏️</span>
+              <div class="card-title">Content Rep</div>
+              <div class="card-text">Explores AI for content creation. Focuses on article generation, social adaptation, and brand voice consistency. Balances AI efficiency with creative quality standards.</div>
+            </div>
+            <div class="card">
+              <span class="card-icon">🔧</span>
+              <div class="card-title">HubSpot Rep</div>
+              <div class="card-text">Automates CRM workflows. Focuses on data cleanup, reporting automation, and integration building. Deep HubSpot expertise ensures automations work within platform constraints.</div>
+            </div>
+            <div class="card">
+              <span class="card-icon">📈</span>
+              <div class="card-title">Strategy Rep</div>
+              <div class="card-text">Applies AI to strategic analysis. Focuses on market research, competitive intelligence, and trend monitoring. Ensures AI supports rather than replaces strategic thinking.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ==================== SLIDE 28: AI Product Owner Commitment ==================== -->
+      <div class="slide content-slide" data-section="Operating Model" data-section-icon="⚡" data-title="Army Commitment">
+        <div class="slide-inner">
+          <h3><span class="icon">⏰</span> AI Product Owner Commitment</h3>
+          <p class="text-lead">Being an AI Product Owner is a meaningful commitment, but it's designed to be sustainable alongside regular responsibilities.</p>
+
+          <div class="stats-row">
+            <div class="stat">
+              <div class="stat-value">4</div>
+              <div class="stat-label">Hours Per Week</div>
+            </div>
+          </div>
+
+          <p class="text-body">This time isn't additional work—it's a reallocation. AI Product Owner activities should reduce overall workload over time as automations take effect. The investment pays off through efficiency gains that free up capacity for everyone.</p>
+
+          <h4>📋 Weekly Activities</h4>
+          <div class="cards-grid grid-4">
+            <div class="card">
+              <span class="card-icon">🔍</span>
+              <div class="card-title">Scout</div>
+              <div class="card-text">Identify pain points and automation opportunities within your team. Listen for complaints about repetitive work, bottlenecks, or quality issues.</div>
+            </div>
+            <div class="card">
+              <span class="card-icon">🧪</span>
+              <div class="card-title">Test</div>
+              <div class="card-text">Try new tools, prompts, and workflows. Document what works and what doesn't. Build a library of proven approaches.</div>
+            </div>
+            <div class="card">
+              <span class="card-icon">📢</span>
+              <div class="card-title">Evangelize</div>
+              <div class="card-text">Train and support teammates on AI tools. Share wins and learnings. Help struggling colleagues get unstuck.</div>
+            </div>
+            <div class="card">
+              <span class="card-icon">🔗</span>
+              <div class="card-title">Connect</div>
+              <div class="card-text">Attend sprint planning, share insights with other reps, bring team needs to central discussions, and carry solutions back.</div>
+            </div>
+          </div>
+
+          <div class="callout">
+            <div class="callout-title">🏆 Recognition & Growth</div>
+            <div class="callout-text">AI Product Owners gain visibility, develop in-demand skills, and position themselves for leadership roles as AI becomes increasingly central to our business. Success in this role demonstrates both technical aptitude and leadership capability.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ==================== SLIDE 29: Sprint Cycle ==================== -->
+      <div class="slide content-slide" data-section="Operating Model" data-section-icon="⚡" data-title="Sprint Cycle">
+        <div class="slide-inner">
+          <h3><span class="icon">🔄</span> Monthly Sprint Cycle</h3>
+          <p class="text-lead">We operate on monthly sprints—a rhythm fast enough to maintain momentum, but long enough to ship meaningful work. Each sprint follows a consistent structure.</p>
+
+          <div class="sprint-visual">
+            <div class="sprint-week">
+              <div class="icon-wrap">📋</div>
+              <div class="week-label">Week 1</div>
+              <div class="week-name">Planning</div>
+            </div>
+            <div class="sprint-week">
+              <div class="icon-wrap">🔍</div>
+              <div class="week-label">Week 2</div>
+              <div class="week-name">Check-in</div>
+            </div>
+            <div class="sprint-week">
+              <div class="icon-wrap">🔨</div>
+              <div class="week-label">Week 3</div>
+              <div class="week-name">Building</div>
+            </div>
+            <div class="sprint-week">
+              <div class="icon-wrap">🎬</div>
+              <div class="week-label">Week 4</div>
+              <div class="week-name">Demo Day</div>
+            </div>
+          </div>
+
+          <div class="two-columns" style="margin-top: 32px;">
+            <div class="column">
+              <h4>📋 Week 1: Planning</h4>
+              <p class="text-body">AI Product Owners meet to review the backlog, assess priorities, and select work for the sprint. Each team commits to specific deliverables based on capacity and strategic importance.</p>
+
+              <h4>🔍 Week 2: Check-in</h4>
+              <p class="text-body">Mid-sprint sync to identify blockers, adjust scope if needed, and share early progress. This is where we course-correct before it's too late.</p>
+            </div>
+            <div class="column">
+              <h4>🔨 Week 3: Building</h4>
+              <p class="text-body">Heads-down execution. Representatives work on their committed items, coordinate on cross-team dependencies, and prepare for demo day.</p>
+
+              <h4>🎬 Week 4: Demo Day</h4>
+              <p class="text-body">Each team showcases what they shipped. Wins are celebrated, learnings are shared, and the backlog is refined based on outcomes. This is our moment to see collective progress.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ==================== SLIDE 30: Intake Pipeline ==================== -->
+      <div class="slide content-slide" data-section="Operating Model" data-section-icon="⚡" data-title="Intake Pipeline">
+        <div class="slide-inner">
+          <h3><span class="icon">📥</span> Idea Intake Pipeline</h3>
+          <p class="text-lead">Great ideas can come from anywhere. The intake pipeline ensures every idea gets captured, evaluated, and either built or consciously deprioritized—nothing gets lost.</p>
+
+          <div class="timeline">
+            <div class="timeline-item">
+              <div class="timeline-title">💬 Step 1: Custom GPT Submission</div>
+              <div class="timeline-text">Anyone at Gradient can submit ideas by chatting with our intake bot. The bot asks clarifying questions about the problem being solved, estimated time savings, and affected team members. No form filling, no bureaucracy—just a conversation. The bot formats submissions consistently for evaluation.</div>
+            </div>
+            <div class="timeline-item">
+              <div class="timeline-title">📋 Step 2: Asana Backlog</div>
+              <div class="timeline-text">Ideas automatically flow into our Asana backlog with proper tagging (team, funnel stage, estimated complexity). Each item includes the original conversation transcript so evaluators understand the full context. The backlog is the single source of truth for what's been proposed.</div>
+            </div>
+            <div class="timeline-item">
+              <div class="timeline-title">⚖️ Step 3: Prioritization</div>
+              <div class="timeline-text">During sprint planning, AI Product Owners review new submissions. Each idea is scored on impact (time saved × people affected) versus effort (complexity × dependencies). High impact, low effort items rise to the top. Items that don't make the cut remain in the backlog for future consideration.</div>
+            </div>
+            <div class="timeline-item">
+              <div class="timeline-title">🚀 Step 4: Sprint Selection</div>
+              <div class="timeline-text">Top-priority items are selected for the upcoming sprint based on team capacity and strategic alignment. Submitters are notified when their idea is selected (or why it wasn't). Transparency builds trust in the process.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ==================== SLIDE 31: Gamification ==================== -->
+      <div class="slide content-slide" data-section="Operating Model" data-section-icon="⚡" data-title="Gamification">
+        <div class="slide-inner">
+          <h3><span class="icon">🎮</span> Gamified Ideation</h3>
+          <p class="text-lead">We believe innovation should be recognized and rewarded. Our gamification system makes idea contribution visible and celebrates those who drive improvement.</p>
+
+          <div class="cards-grid grid-4">
+            <div class="card">
+              <span class="card-icon">💡</span>
+              <div class="card-title">+10 Points: Idea Submitted</div>
+              <div class="card-text">Every idea submitted through the intake pipeline earns points—regardless of whether it's eventually built. We want to encourage thinking and contribution, not just successful outcomes. The act of identifying problems is valuable.</div>
+            </div>
+            <div class="card">
+              <span class="card-icon">🔨</span>
+              <div class="card-title">+25 Points: POC Built</div>
+              <div class="card-text">When an idea makes it to proof of concept, the submitter earns additional points. This recognizes that the idea had enough merit to warrant development resources and passed the prioritization filter.</div>
+            </div>
+            <div class="card">
+              <span class="card-icon">🚀</span>
+              <div class="card-title">+50 Points: Production Deployed</div>
+              <div class="card-text">Full points when a tool reaches production and is in active use. This is the ultimate validation—an idea that went from concept to reality and is now helping the team daily.</div>
+            </div>
+            <div class="card">
+              <span class="card-icon">🏆</span>
+              <div class="card-title">Monthly Leaderboard</div>
+              <div class="card-text">Top contributors are recognized at Demo Day. The leaderboard isn't about competition—it's about visibility. We want everyone to know who's actively contributing to our improvement and to celebrate their engagement.</div>
+            </div>
+          </div>
+
+          <div class="callout">
+            <div class="callout-title">🎁 Quarterly Rewards</div>
+            <div class="callout-text">Top contributors each quarter receive recognition beyond points: featured in company communications, extra professional development budget, choice of equipment upgrades, or other meaningful rewards. Innovation should have tangible benefits.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ==================== SLIDE 32: Build Pipeline ==================== -->
+      <div class="slide content-slide" data-section="Operating Model" data-section-icon="⚡" data-title="Build Pipeline">
+        <div class="slide-inner">
+          <h3><span class="icon">🏗️</span> Build Pipeline</h3>
+          <p class="text-lead">Ideas move through a structured pipeline from concept to client deployment. Each stage has clear criteria for advancement, ensuring quality while maintaining momentum.</p>
+
+          <div class="timeline">
+            <div class="timeline-item">
+              <div class="timeline-title">💡 Stage 1: Proof of Concept (POC)</div>
+              <div class="timeline-text">The first build is quick and dirty—just enough to validate the idea works. A POC might be a simple n8n workflow, a prototype in a no-code tool, or a minimal feature in Gradient OS. The goal is learning, not polish. Can we solve this problem? Is the approach viable? POCs are typically built in days, not weeks.</div>
+            </div>
+            <div class="timeline-item">
+              <div class="timeline-title">🔧 Stage 2: Product Build</div>
+              <div class="timeline-text">Validated POCs graduate to proper product development. This means building for reliability, usability, and maintainability. The interface gets refined, edge cases get handled, and the tool integrates properly with our stack. Product builds take longer—typically 2-4 weeks depending on complexity.</div>
+            </div>
+            <div class="timeline-item">
+              <div class="timeline-title">🏠 Stage 3: Internal Use (Minimum 3 Months)</div>
+              <div class="timeline-text">The tool goes live for internal teams. This is where we stress-test with real usage, gather feedback, and iterate. We're looking for adoption patterns, common issues, and opportunities to improve. The 3-month minimum ensures we've seen the tool through enough real-world scenarios to trust it with clients.</div>
+            </div>
+            <div class="timeline-item">
+              <div class="timeline-title">🎯 Stage 4: Client Deployment</div>
+              <div class="timeline-text">Proven tools become available for client implementation. This might mean deploying the same tool for clients, or adapting it to their specific context. By this stage, we have clear documentation, training materials, and measurable results to share. We're not selling possibilities—we're offering proven solutions.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ==================== SLIDE 33: Training Section ==================== -->
+      <div class="slide section-slide" data-section="Training" data-section-icon="🎓" data-title="Training Program">
+        <div class="slide-inner">
+          <h2>Training Program</h2>
+          <p class="subtitle">Building AI fluency across every team and every level</p>
+        </div>
+      </div>
+
+      <!-- ==================== SLIDE 34: AI Maturity Scale ==================== -->
+      <div class="slide content-slide" data-section="Training" data-section-icon="🎓" data-title="AI Maturity Scale">
+        <div class="slide-inner">
+          <h3><span class="icon">📊</span> Individual AI Maturity Scale</h3>
+          <p class="text-lead">We've defined four maturity levels that describe someone's AI proficiency. Everyone starts somewhere on this spectrum, and our training program helps everyone advance.</p>
+
+          <div class="levels-grid">
+            <div class="level-badge">
+              <div class="number">1</div>
+              <div class="name">AI User</div>
+              <div class="desc">Basic Usage</div>
+            </div>
+            <div class="level-badge">
+              <div class="number">2</div>
+              <div class="name">AI Practitioner</div>
+              <div class="desc">Workflow Use</div>
+            </div>
+            <div class="level-badge">
+              <div class="number">3</div>
+              <div class="name">AI Workflow Designer</div>
+              <div class="desc">Automation</div>
+            </div>
+            <div class="level-badge">
+              <div class="number">4</div>
+              <div class="name">AI Builder</div>
+              <div class="desc">Tool Creation</div>
+            </div>
+          </div>
+
+          <div class="two-columns" style="margin-top: 24px;">
+            <div class="column">
+              <h4>Level 1: AI User — "I use AI when it helps me"</h4>
+              <p class="text-body">Uses off-the-shelf AI tools (ChatGPT, copilots) with simple prompts. Applies AI mainly for drafting, brainstorming, and summarizing. Treats AI as a one-off helper, not part of a system. Limited awareness of risks like hallucinations and data sensitivity.</p>
+
+              <h4>Level 2: AI Practitioner — "AI is part of how I do my job"</h4>
+              <p class="text-body">Uses AI intentionally across daily workflow. Designs better prompts and iterates on outputs. Knows when not to use AI. Applies to research, analysis, structured ideation, and quality improvement. Shares prompts and learnings with others.</p>
+            </div>
+            <div class="column">
+              <h4>Level 3: AI Workflow Designer — "I design AI-powered ways of working"</h4>
+              <p class="text-body">Builds repeatable AI workflows using advanced prompting, tool chaining, APIs, or no-code. Automates parts of work (research → synthesis → draft). Documents and improves workflows over time. Coaches others on effective AI usage.</p>
+
+              <h4>Level 4: AI Builder — "I build AI tools that others use"</h4>
+              <p class="text-body">Designs and builds internal AI tools, custom apps, or specialized models. Translates professional expertise into AI systems. Thinks in terms of scalability, reliability, and governance. Actively shapes how AI is used across the organisation.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ==================== SLIDE 35: Training Path ==================== -->
+      <div class="slide content-slide" data-section="Training" data-section-icon="🎓" data-title="Training Path">
+        <div class="slide-inner">
+          <h3><span class="icon">🛤️</span> The Training Path</h3>
+          <p class="text-lead">Each maturity level has a clear training path with specific skills to master and resources to support learning. Progress is tracked and recognized.</p>
+
+          <div class="cards-grid grid-3">
+            <div class="card">
+              <span class="card-icon">1️⃣</span>
+              <div class="card-title">AI User → AI Practitioner</div>
+              <div class="card-text">
+                <strong>Focus:</strong> Professional workflow integration<br><br>
+                <strong>Skills:</strong> Advanced prompting, iterating on outputs, knowing when not to use AI, understanding limitations<br><br>
+                <strong>Resources:</strong> Prompt library, recorded workshops, peer mentoring<br><br>
+                <strong>Validation:</strong> Demonstrate consistent AI use in daily workflow, share learnings with team
+              </div>
+            </div>
+            <div class="card">
+              <span class="card-icon">2️⃣</span>
+              <div class="card-title">AI Practitioner → Workflow Designer</div>
+              <div class="card-text">
+                <strong>Focus:</strong> Automation and workflow design<br><br>
+                <strong>Skills:</strong> Tool chaining, APIs, no-code tools, n8n basics, workflow documentation<br><br>
+                <strong>Resources:</strong> n8n training series, workflow templates, sandbox environment<br><br>
+                <strong>Validation:</strong> Build and deploy an automated workflow that saves measurable time
+              </div>
+            </div>
+            <div class="card">
+              <span class="card-icon">3️⃣</span>
+              <div class="card-title">Workflow Designer → AI Builder</div>
+              <div class="card-text">
+                <strong>Focus:</strong> Tool creation and enablement<br><br>
+                <strong>Skills:</strong> Gradient OS development, database concepts, UI/UX basics, scalability thinking<br><br>
+                <strong>Resources:</strong> Development bootcamp, pair programming with engineers, technical mentors<br><br>
+                <strong>Validation:</strong> Build an AI tool that others in the organisation use
+              </div>
+            </div>
+          </div>
+
+          <div class="callout">
+            <div class="callout-title">🎯 Goal: Level Up</div>
+            <div class="callout-text">Our target is for 50% of the team to advance at least one maturity level within 6 months. This isn't about becoming engineers—it's about expanding what everyone can accomplish with AI as a force multiplier.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ==================== SLIDE 36: Workshops ==================== -->
+      <div class="slide content-slide" data-section="Training" data-section-icon="🎓" data-title="Workshops">
+        <div class="slide-inner">
+          <h3><span class="icon">📅</span> Discipline-Based Workshops</h3>
+          <p class="text-lead">Workshops are organized by discipline—keeping the company running while specific teams learn. AI Product Owners lead sessions, building their expertise and gaining recognition.</p>
+
+          <div class="two-columns">
+            <div class="column">
+              <h4>📋 Workshop Approach</h4>
+              <ul class="feature-list">
+                <li>
+                  <span class="icon">🎯</span>
+                  <div class="content">
+                    <div class="title">Per-Discipline Focus</div>
+                    <div class="desc">Workshops target specific disciplines (Sales, Content, Performance, etc.). The rest of the company keeps working while one discipline upskills. Cross-discipline attendees welcome but not required.</div>
+                  </div>
+                </li>
+                <li>
+                  <span class="icon">👑</span>
+                  <div class="content">
+                    <div class="title">AI Product Owner Led</div>
+                    <div class="desc">AI Product Owners design and lead workshops for their disciplines. This builds their expertise, gives them recognition, and ensures content is relevant to real workflows.</div>
+                  </div>
+                </li>
+                <li>
+                  <span class="icon">🖐️</span>
+                  <div class="content">
+                    <div class="title">Hands-On & Practical</div>
+                    <div class="desc">Participants work on real exercises. Learning happens through doing. Each workshop produces something usable, not just knowledge transfer.</div>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="column">
+              <h4>📚 Example Workshop Topics</h4>
+              <p class="text-body">• <strong>Prompt Engineering 101:</strong> Foundations for everyone</p>
+              <p class="text-body">• <strong>AI for Sales:</strong> Research automation, meeting prep, CRM enrichment</p>
+              <p class="text-body">• <strong>AI for Content:</strong> Brief generation, SEO optimization, repurposing</p>
+              <p class="text-body">• <strong>n8n for Performance:</strong> Reporting automation, data pipelines</p>
+              <p class="text-body">• <strong>Gradient OS Orientation:</strong> Navigating workspaces and features</p>
+              <p class="text-body">• <strong>Building Custom GPTs:</strong> Creating specialized assistants</p>
+
+              <div class="callout" style="margin-top: 16px;">
+                <div class="callout-title">📹 All Sessions Recorded</div>
+                <div class="callout-text">Every workshop is recorded and added to our knowledge base. Miss a session? Catch up on your own time. Cross-discipline learning is encouraged.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ==================== SLIDE 37: Hackathons ==================== -->
+      <div class="slide content-slide" data-section="Training" data-section-icon="🎓" data-title="Hackathons">
+        <div class="slide-inner">
+          <h3><span class="icon">🏆</span> Motion Hackathons</h3>
+          <p class="text-lead">As a service business, we can't afford full-day events. Instead, we run asynchronous mini-hackathons aligned to our go-to-market motions—build at your own pace, demo at quarterly sessions.</p>
+
+          <div class="cards-grid grid-4">
+            <div class="card">
+              <span class="card-icon">📋</span>
+              <div class="card-title">Backlog Published Early</div>
+              <div class="card-text">One month before the quarterly session, we publish the hackathon backlog—real problems organized by motion (Inbound, Outbound, Sales-Led, etc.). Teams can browse, claim challenges, and start building immediately.</div>
+            </div>
+            <div class="card">
+              <span class="card-icon">⏰</span>
+              <div class="card-title">Build at Your Own Pace</div>
+              <div class="card-text">No pressure to block out a full day. Work on your hackathon project in gaps between client work, evenings, or whenever inspiration strikes. The async approach respects that every hour matters in a service business.</div>
+            </div>
+            <div class="card">
+              <span class="card-icon">👥</span>
+              <div class="card-title">Cross-Discipline Teams</div>
+              <div class="card-text">We intentionally mix people across disciplines. A Sales person teams up with a Content creator and a Performance specialist. These combinations surface ideas that siloed teams would never generate.</div>
+            </div>
+            <div class="card">
+              <span class="card-icon">🎉</span>
+              <div class="card-title">Quarterly Demo Day</div>
+              <div class="card-text">The quarterly session becomes demo day—final polish, presentations, and recognition. Winning solutions get fast-tracked to production. It's the culmination of a month of async building, not a single intense day.</div>
+            </div>
+          </div>
+
+          <p class="text-body" style="margin-top: 24px;">This approach builds skills through applied practice, generates real solutions, and strengthens cross-discipline relationships—all without stopping the business. Innovation happens continuously, not just on special days.</p>
+        </div>
+      </div>
+
+      <!-- ==================== SLIDE 38: OKRs Section ==================== -->
+      <div class="slide section-slide" data-section="OKRs" data-section-icon="🎯" data-title="Success Metrics">
+        <div class="slide-inner">
+          <h2>OKRs</h2>
+          <p class="subtitle">How we measure success and hold ourselves accountable</p>
+        </div>
+      </div>
+
+      <!-- ==================== SLIDE 39: OKR Overview ==================== -->
+      <div class="slide content-slide" data-section="OKRs" data-section-icon="🎯" data-title="OKR Overview">
+        <div class="slide-inner">
+          <h3><span class="icon">📊</span> Our Objectives</h3>
+          <p class="text-lead">We've defined three key objectives for this transformation, each with specific, measurable key results. These OKRs guide our priorities and let us track whether we're actually making progress.</p>
+
+          <div class="cards-grid grid-3">
+            <div class="card">
+              <span class="card-icon">📈</span>
+              <div class="card-title">Objective 1: Drive AI Adoption</div>
+              <div class="card-text">Ensure every team member can effectively use AI tools in their daily work. Adoption isn't about having tools available—it's about people actually using them to improve their work.</div>
+            </div>
+            <div class="card">
+              <span class="card-icon">⚡</span>
+              <div class="card-title">Objective 2: Improve Efficiency</div>
+              <div class="card-text">Deliver measurable time savings and quality improvements through AI-powered automation. This is where the rubber meets the road—actual hours saved, actual work made better.</div>
+            </div>
+            <div class="card">
+              <span class="card-icon">🚀</span>
+              <div class="card-title">Objective 3: Build Innovation Pipeline</div>
+              <div class="card-text">Create a sustainable flow of ideas into built tools into client value. The goal isn't just to build things—it's to establish a repeatable process that continuously generates new capabilities.</div>
+            </div>
+          </div>
+
+          <p class="text-body" style="margin-top: 24px;">These objectives are interdependent. Adoption drives efficiency because tools only save time when people use them. Efficiency validates adoption and generates enthusiasm for more innovation. Innovation creates new tools that drive further adoption. It's a virtuous cycle we're trying to establish.</p>
+        </div>
+      </div>
+
+      <!-- ==================== SLIDE 40: OKR 1 Detail ==================== -->
+      <div class="slide content-slide" data-section="OKRs" data-section-icon="🎯" data-title="Adoption OKRs">
+        <div class="slide-inner">
+          <h3><span class="icon">📈</span> Objective 1: Drive AI Adoption</h3>
+          <p class="text-lead">Key results that measure whether we're successfully getting AI tools into daily use across the organization.</p>
+
+          <ul class="feature-list">
+            <li>
+              <span class="icon">🎯</span>
+              <div class="content">
+                <div class="title">KR1: 80% Weekly Active Usage</div>
+                <div class="desc">80% of team members actively using standardized AI tools at least once per week. "Active use" means purposeful application to real work, not just logging in. We measure this through usage analytics and periodic surveys. Current baseline: approximately 40% regular usage.</div>
+              </div>
+            </li>
+            <li>
+              <span class="icon">🎯</span>
+              <div class="content">
+                <div class="title">KR2: Confidence Score Increase from 3.0 to 4.0</div>
+                <div class="desc">Team average AI confidence (self-reported, 1-5 scale) increases from current 3.0 to 4.0. We measure quarterly through anonymous surveys. This metric captures whether people feel empowered, not just whether they're using tools.</div>
+              </div>
+            </li>
+            <li>
+              <span class="icon">🎯</span>
+              <div class="content">
+                <div class="title">KR3: 50% Advance One Maturity Level</div>
+                <div class="desc">Half the team advances at least one maturity level (AI User → Practitioner, Practitioner → Workflow Designer, etc.) within 6 months. We assess levels through demonstrated skills—completing training milestones, building workflows, contributing tools.</div>
+              </div>
+            </li>
+          </ul>
+
+          <div class="callout">
+            <div class="callout-title">📅 Measurement Cadence</div>
+            <div class="callout-text">Usage metrics tracked weekly. Confidence surveys conducted quarterly. Maturity level assessments updated as milestones are completed. Monthly reviews in sprint planning to identify teams or individuals needing additional support.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ==================== SLIDE 41: OKR 2 Detail ==================== -->
+      <div class="slide content-slide" data-section="OKRs" data-section-icon="🎯" data-title="Efficiency OKRs">
+        <div class="slide-inner">
+          <h3><span class="icon">⚡</span> Objective 2: Improve Efficiency</h3>
+          <p class="text-lead">Key results that measure whether our AI tools are actually delivering time savings and quality improvements.</p>
+
+          <ul class="feature-list">
+            <li>
+              <span class="icon">🎯</span>
+              <div class="content">
+                <div class="title">KR1: 5 Hours Saved Per Person Per Week</div>
+                <div class="desc">On average, each team member saves 5 hours weekly through AI tools and automation. We calculate this by surveying task completion times before and after AI implementation, weighted by task frequency. Even conservative estimates compound significantly—5 hours × 50 people × 50 weeks = 12,500 hours annually.</div>
+              </div>
+            </li>
+            <li>
+              <span class="icon">🎯</span>
+              <div class="content">
+                <div class="title">KR2: 20 Processes Automated</div>
+                <div class="desc">Convert 20 previously manual processes into automated workflows. Each automated process is documented with estimated time savings per occurrence and frequency. We maintain a registry tracking what's been automated and measuring actual usage.</div>
+              </div>
+            </li>
+            <li>
+              <span class="icon">🎯</span>
+              <div class="content">
+                <div class="title">KR3: 30% Reduction in Revision Cycles</div>
+                <div class="desc">AI-assisted deliverables require 30% fewer revision rounds than non-assisted work. We track this through project management data—comparing revision counts on AI-assisted vs. non-assisted work of similar type. Fewer revisions = faster delivery and higher first-draft quality.</div>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- ==================== SLIDE 42: OKR 3 Detail ==================== -->
+      <div class="slide content-slide" data-section="OKRs" data-section-icon="🎯" data-title="Innovation OKRs">
+        <div class="slide-inner">
+          <h3><span class="icon">🚀</span> Objective 3: Build Innovation Pipeline</h3>
+          <p class="text-lead">Key results that measure whether we're building a sustainable system for continuous AI tool development.</p>
+
+          <ul class="feature-list">
+            <li>
+              <span class="icon">🎯</span>
+              <div class="content">
+                <div class="title">KR1: 50+ Ideas Submitted Per Quarter</div>
+                <div class="desc">The intake pipeline receives at least 50 ideas per quarter through the Custom GPT submission system. This measures engagement with improvement—are people thinking about how AI could help? Are they taking time to submit those thoughts? Volume matters at this stage.</div>
+              </div>
+            </li>
+            <li>
+              <span class="icon">🎯</span>
+              <div class="content">
+                <div class="title">KR2: 6 Tools Deployed Per Quarter</div>
+                <div class="desc">Ship 6 new tools to Gradient OS production each quarter—an average of 2 per sprint. These must be in actual use, not just technically deployed. This measures our execution capability—can we consistently turn ideas into working solutions?</div>
+              </div>
+            </li>
+            <li>
+              <span class="icon">🎯</span>
+              <div class="content">
+                <div class="title">KR3: 2 Client Deployments by Year End</div>
+                <div class="desc">At least 2 tools successfully deployed to paying clients by the end of the 18-month period. "Successful" means the client is actively using the tool and deriving value. This validates our internal-first strategy—can proven internal tools become client offerings?</div>
+              </div>
+            </li>
+          </ul>
+
+          <div class="callout">
+            <div class="callout-title">🔄 Pipeline Health Metrics</div>
+            <div class="callout-text">Beyond these KRs, we track pipeline health: idea-to-POC conversion rate, POC-to-production success rate, and time-to-deploy. These indicate whether our process is working efficiently or has bottlenecks to address.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ==================== SLIDE 43: Roadmap Section ==================== -->
+      <div class="slide section-slide" data-section="Roadmap" data-section-icon="🗺️" data-title="The Roadmap">
+        <div class="slide-inner">
+          <h2>Roadmap</h2>
+          <p class="subtitle">The phases, milestones, and sequence of our transformation</p>
+        </div>
+      </div>
+
+      <!-- ==================== SLIDE 44: Phase 1 ==================== -->
+      <div class="slide content-slide" data-section="Roadmap" data-section-icon="🗺️" data-title="Phase 1">
+        <div class="slide-inner">
+          <h3><span class="icon">1️⃣</span> Phase 1: Foundation (Months 1-3)</h3>
+          <p class="text-lead">The foundation phase establishes the structures, standards, and habits that everything else builds upon. We're laying groundwork that will support scaling.</p>
+
+          <div class="two-columns">
+            <div class="column">
+              <h4>✅ Key Deliverables</h4>
+              <ul class="feature-list">
+                <li>
+                  <span class="icon">🤖</span>
+                  <div class="content">
+                    <div class="title">AI Product Owners Launched</div>
+                    <div class="desc">Representatives recruited from each team, responsibilities defined, initial training completed</div>
+                  </div>
+                </li>
+                <li>
+                  <span class="icon">🛠️</span>
+                  <div class="content">
+                    <div class="title">Tools Standardized</div>
+                    <div class="desc">Approved tool stack finalized, ownership assigned, documentation created</div>
+                  </div>
+                </li>
+                <li>
+                  <span class="icon">📥</span>
+                  <div class="content">
+                    <div class="title">Intake Pipeline Live</div>
+                    <div class="desc">Custom GPT submission system operational, Asana integration working, first ideas flowing</div>
+                  </div>
+                </li>
+                <li>
+                  <span class="icon">🔄</span>
+                  <div class="content">
+                    <div class="title">First Sprint Completed</div>
+                    <div class="desc">Full sprint cycle executed—planning through demo day—establishing the rhythm</div>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="column">
+              <h4>🎯 Success Criteria</h4>
+              <p class="text-body">Phase 1 is successful when:</p>
+              <p class="text-body">• Every team has an active AI Product Owner who understands their role</p>
+              <p class="text-body">• Tool standardization is communicated and teams are migrating to approved tools</p>
+              <p class="text-body">• At least 10 ideas have been submitted through the intake system</p>
+              <p class="text-body">• One complete sprint cycle has run with learnings documented</p>
+              <p class="text-body">• The first POC has been built (even if simple)</p>
+              <p class="text-body">• Baseline metrics are established for all OKRs</p>
+
+              <div class="callout" style="margin-top: 16px;">
+                <div class="callout-title">⚡ Phase 1 Theme</div>
+                <div class="callout-text">Establish the machine before expecting output. This phase is about building the systems that will generate results in later phases.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ==================== SLIDE 45: Phase 2 ==================== -->
+      <div class="slide content-slide" data-section="Roadmap" data-section-icon="🗺️" data-title="Phase 2">
+        <div class="slide-inner">
+          <h3><span class="icon">2️⃣</span> Phase 2: Acceleration (Months 4-9)</h3>
+          <p class="text-lead">With foundations in place, Phase 2 is about velocity—shipping tools, training teams, and proving the model works. This is where effort converts to results.</p>
+
+          <div class="two-columns">
+            <div class="column">
+              <h4>🔨 Key Deliverables</h4>
+              <ul class="feature-list">
+                <li>
+                  <span class="icon">🧩</span>
+                  <div class="content">
+                    <div class="title">Core Workspaces Deployed</div>
+                    <div class="desc">Sales, SEO, Performance, and Content workspaces live in Gradient OS with active users</div>
+                  </div>
+                </li>
+                <li>
+                  <span class="icon">🎓</span>
+                  <div class="content">
+                    <div class="title">Training Program Running</div>
+                    <div class="desc">Monthly workshops happening consistently, first hackathon completed, knowledge base growing</div>
+                  </div>
+                </li>
+                <li>
+                  <span class="icon">📊</span>
+                  <div class="content">
+                    <div class="title">Metrics Dashboard</div>
+                    <div class="desc">Real-time visibility into adoption, time savings, and pipeline health</div>
+                  </div>
+                </li>
+                <li>
+                  <span class="icon">🔄</span>
+                  <div class="content">
+                    <div class="title">Process Maturity</div>
+                    <div class="desc">Sprint cycle refined based on learnings, bottlenecks identified and addressed</div>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="column">
+              <h4>🎯 Success Criteria</h4>
+              <p class="text-body">Phase 2 is successful when:</p>
+              <p class="text-body">• At least 12 tools have been deployed to production</p>
+              <p class="text-body">• 60% of team shows weekly active AI tool usage</p>
+              <p class="text-body">• Measurable time savings are being tracked and reported</p>
+              <p class="text-body">• Training attendance averages 70%+ for relevant workshops</p>
+              <p class="text-body">• First hackathon produces at least one production-worthy project</p>
+              <p class="text-body">• At least one tool is identified as ready for client pilot</p>
+
+              <div class="callout" style="margin-top: 16px;">
+                <div class="callout-title">⚡ Phase 2 Theme</div>
+                <div class="callout-text">Ship, learn, repeat. This phase builds muscle memory for continuous improvement. Speed matters more than perfection—we can iterate on what's deployed.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ==================== SLIDE 46: Phase 3 ==================== -->
+      <div class="slide content-slide" data-section="Roadmap" data-section-icon="🗺️" data-title="Phase 3">
+        <div class="slide-inner">
+          <h3><span class="icon">3️⃣</span> Phase 3: Scale (Months 10-18)</h3>
+          <p class="text-lead">Phase 3 is where internal success translates to external value. We move from building for ourselves to deploying for clients and establishing new revenue streams.</p>
+
+          <div class="two-columns">
+            <div class="column">
+              <h4>🎯 Key Deliverables</h4>
+              <ul class="feature-list">
+                <li>
+                  <span class="icon">💼</span>
+                  <div class="content">
+                    <div class="title">Client Deployments</div>
+                    <div class="desc">First tools deployed to paying clients with documented value delivery</div>
+                  </div>
+                </li>
+                <li>
+                  <span class="icon">💰</span>
+                  <div class="content">
+                    <div class="title">Product Revenue</div>
+                    <div class="desc">Recurring revenue from productized tools—the beginning of our product arm</div>
+                  </div>
+                </li>
+                <li>
+                  <span class="icon">🏆</span>
+                  <div class="content">
+                    <div class="title">Industry Recognition</div>
+                    <div class="desc">Case studies, speaking opportunities, or press coverage for our AI approach</div>
+                  </div>
+                </li>
+                <li>
+                  <span class="icon">🚀</span>
+                  <div class="content">
+                    <div class="title">Full Transformation</div>
+                    <div class="desc">Gradient operates as a tech-enabled agency—AI is embedded in everything we do</div>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="column">
+              <h4>🎯 Success Criteria</h4>
+              <p class="text-body">Phase 3 is successful when:</p>
+              <p class="text-body">• At least 2 tools are deployed to paying clients</p>
+              <p class="text-body">• Product revenue exceeds €10,000 recurring</p>
+              <p class="text-body">• 80%+ team AI adoption with confidence score ≥4.0</p>
+              <p class="text-body">• Time savings exceed 5,000 hours annually</p>
+              <p class="text-body">• At least one external recognition (award, press, conference)</p>
+              <p class="text-body">• New hires cite AI capabilities as attraction factor</p>
+
+              <div class="callout" style="margin-top: 16px;">
+                <div class="callout-title">⚡ Phase 3 Theme</div>
+                <div class="callout-text">Prove it externally. Internal success is validation; external success is transformation. This phase proves the model works beyond our walls.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ==================== SLIDE 47: What to Expect Section ==================== -->
+      <div class="slide section-slide" data-section="Expectations" data-section-icon="👀" data-title="What to Expect">
+        <div class="slide-inner">
+          <h2>What to Expect</h2>
+          <p class="subtitle">Realistic expectations for the journey ahead</p>
+        </div>
+      </div>
+
+      <!-- ==================== SLIDE 48: Expectations Detail ==================== -->
+      <div class="slide content-slide" data-section="Expectations" data-section-icon="👀" data-title="Realistic Expectations">
+        <div class="slide-inner">
+          <h3><span class="icon">🎢</span> The Reality of Transformation</h3>
+          <p class="text-lead">Transformation is not a straight line. Here's what to realistically expect as we pursue this vision together.</p>
+
+          <div class="cards-grid grid-4">
+            <div class="card">
+              <span class="card-icon">🔄</span>
+              <div class="card-title">Iteration, Not Perfection</div>
+              <div class="card-text">We will try things that don't work. We'll build tools that don't get adopted. We'll make mistakes. This isn't failure—it's learning. The goal isn't to get everything right the first time; it's to learn fast and adapt quickly. Expect pivots, adjustments, and course corrections.</div>
+            </div>
+            <div class="card">
+              <span class="card-icon">📈</span>
+              <div class="card-title">Nonlinear Progress</div>
+              <div class="card-text">Some months will feel like breakthroughs; others will feel like plateaus. This is normal. Foundations take time to build but enable rapid progress later. Don't judge progress by any single sprint—look at the trend over quarters.</div>
+            </div>
+            <div class="card">
+              <span class="card-icon">🗣️</span>
+              <div class="card-title">Continuous Communication</div>
+              <div class="card-text">You'll hear a lot about AI initiatives—in company meetings, team updates, and informal conversations. This transparency is intentional. Everyone should know what we're building, why, and how it's going. Questions and feedback are welcome always.</div>
+            </div>
+            <div class="card">
+              <span class="card-icon">🙋</span>
+              <div class="card-title">Everyone Has a Voice</div>
+              <div class="card-text">Ideas can come from anywhere. The intake pipeline exists because junior team members often have the best visibility into inefficiencies. Your role or tenure doesn't determine the value of your contribution. If you see a problem AI could solve, tell us.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ==================== SLIDE 49: What We Ask ==================== -->
+      <div class="slide content-slide" data-section="Expectations" data-section-icon="👀" data-title="What We Ask">
+        <div class="slide-inner">
+          <h3><span class="icon">🤝</span> What We Ask of You</h3>
+          <p class="text-lead">These five asks align with Gradient's core behaviors. If this resonates with you—lean in. This is how we grow together.</p>
+
+          <ul class="feature-list">
+            <li>
+              <span class="icon">🦁</span>
+              <div class="content">
+                <div class="title">Be Bold</div>
+                <div class="desc">Approach AI with courage, not anxiety. Take the leap on new workflows even when uncertain. The landscape is changing fast—those who step forward will shape what comes next.</div>
+              </div>
+            </li>
+            <li>
+              <span class="icon">🚀</span>
+              <div class="content">
+                <div class="title">Own It</div>
+                <div class="desc">Take initiative in your AI journey. Spot opportunities, drive your own learning, don't wait to be told. Your growth is yours to pursue—and we're here to support you.</div>
+              </div>
+            </li>
+            <li>
+              <span class="icon">🤲</span>
+              <div class="content">
+                <div class="title">Serve First</div>
+                <div class="desc">Share discoveries to help colleagues. Focus on creating value for clients and teammates. Your insight could unlock someone else's breakthrough.</div>
+              </div>
+            </li>
+            <li>
+              <span class="icon">💡</span>
+              <div class="content">
+                <div class="title">Create Something</div>
+                <div class="desc">Experiment with tools and workflows. Build solutions to problems you see. Submit ideas, attend workshops if you want to—every contribution adds to what we're building.</div>
+              </div>
+            </li>
+            <li>
+              <span class="icon">🎯</span>
+              <div class="content">
+                <div class="title">Speak Up</div>
+                <div class="desc">Give honest feedback. Challenge what doesn't work. Suggest better ways. The best ideas come from people who care enough to question and improve.</div>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- ==================== SLIDE 50: Closing ==================== -->
+      <div class="slide title-slide" data-section="Closing" data-section-icon="🎬" data-title="Let's Build">
+        <div class="slide-inner">
+          <span class="slide-icon">🚀</span>
+          <h1>Let's Build the Future</h1>
+          <p class="subtitle">This playbook is our map. The journey is ours to make together. Every great transformation starts with a first step—and this document marks ours.</p>
+          <div class="stats-row" style="margin-top: 48px;">
+            <div class="stat">
+              <div class="stat-value">🤖</div>
+              <div class="stat-label">AI-Powered</div>
+            </div>
+            <div class="stat">
+              <div class="stat-value">👥</div>
+              <div class="stat-label">Team-Driven</div>
+            </div>
+            <div class="stat">
+              <div class="stat-value">🎯</div>
+              <div class="stat-label">Client-Focused</div>
+            </div>
+          </div>
+          <p class="text-body" style="margin-top: 40px; text-align: center; max-width: 600px;">Questions? Ideas? Feedback on this document?<br>Reach out to the AI Product Owners or use the intake pipeline.</p>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Navigation -->
+    <div class="navigation">
+      <button class="nav-btn" id="prevBtn" onclick="prevSlide()">←</button>
+      <div class="nav-center" id="navDots"></div>
+      <button class="nav-btn" id="nextBtn" onclick="nextSlide()">→</button>
+    </div>
+
+    <!-- Navigator Modal -->
+    <div class="slide-navigator" id="slideNavigator">
+      <div class="navigator-header">
+        <div class="navigator-title">Jump to Slide</div>
+        <button class="navigator-close" onclick="toggleNavigator()">×</button>
+      </div>
+      <div class="navigator-sections" id="navigatorSections"></div>
+    </div>
+  </div>
+
+  <script>
+    let currentSlide = 0;
+    const slides = document.querySelectorAll('.slide');
+    const totalSlides = slides.length;
+    const progressBar = document.getElementById('progressBar');
+    const slideCounter = document.getElementById('slideCounter');
+    const sectionIndicator = document.getElementById('sectionIndicator');
+    const navDots = document.getElementById('navDots');
+    const slideNavigator = document.getElementById('slideNavigator');
+    const navigatorSections = document.getElementById('navigatorSections');
+
+    // Stats Counter Animation
+    function countUp(element, target, duration = 1500) {
+      const start = 0;
+      const startTime = performance.now();
+      const isFloat = target % 1 !== 0;
+
+      function update(currentTime) {
+        const elapsed = currentTime - startTime;
+        const progress = Math.min(elapsed / duration, 1);
+        // Ease out cubic
+        const easeOut = 1 - Math.pow(1 - progress, 3);
+        const current = start + (target - start) * easeOut;
+
+        if (isFloat) {
+          element.textContent = current.toFixed(1);
+        } else {
+          element.textContent = Math.floor(current);
+        }
+
+        if (progress < 1) {
+          requestAnimationFrame(update);
+        } else {
+          element.textContent = target;
+        }
+      }
+      requestAnimationFrame(update);
+    }
+
+    // Trigger counter animation on slide enter
+    function animateStats(slide) {
+      const statValues = slide.querySelectorAll('.stat-value');
+      statValues.forEach((el, i) => {
+        const text = el.textContent.trim();
+        const numMatch = text.match(/^([\d.]+)/);
+        if (numMatch) {
+          const target = parseFloat(numMatch[1]);
+          const suffix = text.replace(numMatch[1], '');
+          el.dataset.target = target;
+          el.dataset.suffix = suffix;
+          el.textContent = '0' + suffix;
+          setTimeout(() => {
+            countUp(el, target, 1500);
+            setTimeout(() => {
+              el.textContent = target + suffix;
+            }, 1600);
+          }, 300 + (i * 150));
+        }
+      });
+    }
+
+    function buildNavDots() {
+      const sections = {};
+      slides.forEach((slide, i) => {
+        const section = slide.dataset.section || 'Other';
+        if (!sections[section]) sections[section] = [];
+        sections[section].push(i);
+      });
+      Object.entries(sections).forEach(([name, indices]) => {
+        const dot = document.createElement('div');
+        dot.className = 'nav-dot';
+        dot.dataset.section = name;
+        dot.onclick = () => goToSlide(indices[0]);
+        dot.title = name;
+        navDots.appendChild(dot);
+      });
+    }
+
+    function buildNavigator() {
+      const sections = {};
+      slides.forEach((slide, i) => {
+        const section = slide.dataset.section || 'Other';
+        const icon = slide.dataset.sectionIcon || '📄';
+        if (!sections[section]) sections[section] = { icon, slides: [] };
+        sections[section].slides.push({ index: i, title: slide.dataset.title || `Slide ${i + 1}` });
+      });
+      navigatorSections.innerHTML = '';
+      Object.entries(sections).forEach(([name, data]) => {
+        const el = document.createElement('div');
+        el.className = 'navigator-section';
+        el.innerHTML = `
+          <div class="navigator-section-title"><span>${data.icon}</span> ${name}</div>
+          <div class="navigator-slides">
+            ${data.slides.map(s => `
+              <div class="navigator-slide ${s.index === currentSlide ? 'current' : ''}" onclick="goToSlide(${s.index}); toggleNavigator();">
+                <span class="num">${s.index + 1}</span>
+                <span class="name">${s.title}</span>
+              </div>
+            `).join('')}
+          </div>
+        `;
+        navigatorSections.appendChild(el);
+      });
+    }
+
+    function toggleNavigator() {
+      slideNavigator.classList.toggle('open');
+      if (slideNavigator.classList.contains('open')) buildNavigator();
+    }
+
+    function updateSlide() {
+      slides.forEach((slide, i) => {
+        slide.classList.remove('active', 'prev');
+        if (i === currentSlide) slide.classList.add('active');
+        else if (i < currentSlide) slide.classList.add('prev');
+      });
+      progressBar.style.width = `${((currentSlide + 1) / totalSlides) * 100}%`;
+      slideCounter.textContent = `${currentSlide + 1} / ${totalSlides}`;
+
+      // Update circular progress ring
+      const progressRing = document.getElementById('progressRing');
+      const circumference = 157; // 2 * PI * 25
+      const progress = (currentSlide + 1) / totalSlides;
+      const offset = circumference * (1 - progress);
+      progressRing.style.strokeDashoffset = offset;
+
+      const section = slides[currentSlide].dataset.section || 'Presentation';
+      const icon = slides[currentSlide].dataset.sectionIcon || '📄';
+      sectionIndicator.querySelector('.icon').textContent = icon;
+      sectionIndicator.querySelector('.text').textContent = section;
+      document.getElementById('prevBtn').disabled = currentSlide === 0;
+      document.getElementById('nextBtn').disabled = currentSlide === totalSlides - 1;
+      navDots.querySelectorAll('.nav-dot').forEach(dot => {
+        dot.classList.toggle('active', dot.dataset.section === section);
+      });
+
+      // Trigger stats counter animation for current slide
+      animateStats(slides[currentSlide]);
+    }
+
+    function nextSlide() { if (currentSlide < totalSlides - 1) { currentSlide++; updateSlide(); } }
+    function prevSlide() { if (currentSlide > 0) { currentSlide--; updateSlide(); } }
+    function goToSlide(i) { if (i >= 0 && i < totalSlides) { currentSlide = i; updateSlide(); } }
+
+    document.addEventListener('keydown', (e) => {
+      if (slideNavigator.classList.contains('open')) {
+        if (e.key === 'Escape') toggleNavigator();
+        return;
+      }
+      if (['ArrowRight', 'ArrowDown', ' '].includes(e.key)) { e.preventDefault(); nextSlide(); }
+      if (['ArrowLeft', 'ArrowUp'].includes(e.key)) { e.preventDefault(); prevSlide(); }
+      if (e.key === 'Home') { e.preventDefault(); goToSlide(0); }
+      if (e.key === 'End') { e.preventDefault(); goToSlide(totalSlides - 1); }
+      if (e.key.toLowerCase() === 'g') { e.preventDefault(); toggleNavigator(); }
+    });
+
+    let touchStartX = 0, touchStartY = 0;
+    document.addEventListener('touchstart', (e) => {
+      touchStartX = e.changedTouches[0].screenX;
+      touchStartY = e.changedTouches[0].screenY;
+    }, { passive: true });
+    document.addEventListener('touchend', (e) => {
+      if (slideNavigator.classList.contains('open')) return;
+      const dx = e.changedTouches[0].screenX - touchStartX;
+      const dy = e.changedTouches[0].screenY - touchStartY;
+      if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 50) {
+        dx > 0 ? prevSlide() : nextSlide();
+      }
+    }, { passive: true });
+
+    slideNavigator.addEventListener('click', (e) => { if (e.target === slideNavigator) toggleNavigator(); });
+
+    buildNavDots();
+    updateSlide();
+  </script>
+</body>
+</html>
