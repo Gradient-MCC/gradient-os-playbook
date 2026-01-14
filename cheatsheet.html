@@ -284,23 +284,23 @@
       <div class="rock-grid">
         <div class="rock-card role">
           <h3>R — Role</h3>
-          <div class="question">Who should the AI be?</div>
-          <div class="example">"You're a senior account manager at a digital agency..."</div>
+          <div class="question">Who's writing this? For whom?</div>
+          <div class="example">"You're a performance marketing strategist presenting to the CFO"</div>
         </div>
         <div class="rock-card objective">
           <h3>O — Objective</h3>
-          <div class="question">What's the actual goal?</div>
-          <div class="example">"Goal: maintain trust while setting new expectations"</div>
+          <div class="question">What decision does this enable?</div>
+          <div class="example">"Goal: maximize ROAS while maintaining brand reach"</div>
         </div>
         <div class="rock-card context">
           <h3>C — Context</h3>
-          <div class="question">What background matters?</div>
-          <div class="example">"Long-term client (2+ years), detail-oriented, generally understanding"</div>
+          <div class="question">What does the AI need to see?</div>
+          <div class="example">"Q4 results: [paste data]. CFO wants efficiency, CEO wants reach."</div>
         </div>
         <div class="rock-card keys">
           <h3>K — Keys</h3>
-          <div class="question">What specifics must be included?</div>
-          <div class="example">"Include: reason, new timeline, prevention steps. 150-200 words."</div>
+          <div class="question">What's the deliverable format?</div>
+          <div class="example">"3 scenarios. Trade-offs, projected ROAS, risk factors. One-pager."</div>
         </div>
       </div>
     </div>
@@ -308,26 +308,25 @@
     <div class="section">
       <div class="section-title">✨ Example: R.O.C.K. in Action</div>
       <div class="example-box">
-        <span class="label">Complete Prompt</span><span class="tag r">R</span> You're a senior account manager at a digital agency.
+        <span class="label">Complete Prompt</span><span class="tag r">R</span> You're a performance marketing strategist presenting to the CFO.
 
-<span class="tag o">O</span> Write an email explaining a 1-week delay. Goal: maintain trust while setting new expectations.
+<span class="tag o">O</span> Recommend Q1 budget allocation across channels. Goal: maximize ROAS while maintaining brand reach.
 
-<span class="tag c">C</span> Client: CMO of mid-size e-commerce brand. Long-term relationship (2+ years). They're detail-oriented but generally understanding.
+<span class="tag c">C</span> Q4 results: [paste actual data table]. Total budget: $150K. CFO prioritizes efficiency, CEO wants market presence.
 
-<span class="tag k">K</span> Include: reason (design revision needed), new timeline, prevention steps.
-Tone: professional but warm. Length: 150-200 words.</div>
+<span class="tag k">K</span> Format: 3 scenarios (conservative/balanced/aggressive). Include trade-offs, projected ROAS, risk factors. One-pager for exec review.</div>
     </div>
 
     <div class="section">
       <div class="section-title">📋 Context: Paste, Don't Describe</div>
       <div class="comparison">
         <div class="comparison-side bad">
-          <h4>❌ Describing</h4>
-          <p>"I have some sales data that shows mixed results across channels..."</p>
+          <h4>❌ Describing (you're translating)</h4>
+          <p>"Campaign performance was mixed. Paid social did okay, search was strong, programmatic underperformed..."</p>
         </div>
         <div class="comparison-side good">
-          <h4>✅ Pasting</h4>
-          <p>"Here's our Q4 data: [actual CSV/table]. Analyze which channels drove most revenue per dollar spent."</p>
+          <h4>✅ Pasting (let AI see raw truth)</h4>
+          <p>"Here's our Q4 export: [Channel | Spend | Revenue | ROAS data]. Recommend Q1 allocation."</p>
         </div>
       </div>
     </div>
@@ -367,20 +366,54 @@ Tone: professional but warm. Length: 150-200 words.</div>
     </div>
 
     <div class="section">
-      <div class="section-title">🛠️ Recommended Tools</div>
+      <div class="section-title">⚡ Claude Skills — Save Your Best Prompts</div>
       <div class="tips-grid">
         <div class="tip">
-          <img src="https://www.google.com/s2/favicons?domain=wisprflow.ai&sz=64" alt="Wispr Flow" style="width: 32px; height: 32px; border-radius: 6px;">
+          <span class="tip-icon" style="font-family: monospace; font-size: 1rem; color: var(--primary);">/proposal</span>
           <div class="tip-content">
-            <h4>Wispr Flow <span style="font-weight: 400; color: var(--muted);">wisprflow.ai</span></h4>
-            <p>Voice → polished text. 4x faster than typing. Removes filler words automatically.</p>
+            <h4>Client Proposal Skill</h4>
+            <p>Pre-loaded R.O.C.K. structure. Paste client brief, get draft proposal.</p>
           </div>
         </div>
+        <div class="tip">
+          <span class="tip-icon" style="font-family: monospace; font-size: 1rem; color: var(--secondary);">/meeting</span>
+          <div class="tip-content">
+            <h4>Meeting Summary Skill</h4>
+            <p>Paste raw notes → action items, decisions, follow-ups.</p>
+          </div>
+        </div>
+        <div class="tip">
+          <span class="tip-icon" style="font-family: monospace; font-size: 1rem; color: var(--accent);">/competitor</span>
+          <div class="tip-content">
+            <h4>Competitor Analysis Skill</h4>
+            <p>Your framework built in. Paste content → structured breakdown.</p>
+          </div>
+        </div>
+        <div class="tip">
+          <span class="tip-icon" style="font-family: monospace; font-size: 1rem; color: var(--warning);">/weekly</span>
+          <div class="tip-content">
+            <h4>Weekly Report Skill</h4>
+            <p>Your template. Paste updates → formatted report.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title">🛠️ Tools to Get Started</div>
+      <div class="tips-grid">
         <div class="tip">
           <img src="https://www.google.com/s2/favicons?domain=claude.ai&sz=64" alt="Claude" style="width: 32px; height: 32px; border-radius: 6px;">
           <div class="tip-content">
             <h4>Claude Desktop <span style="font-weight: 400; color: var(--muted);">claude.ai/download</span></h4>
-            <p>AI that works with your files. Cowork mode for docs, spreadsheets, research.</p>
+            <p>Create and save Skills. Works with your local files via Cowork mode.</p>
+          </div>
+        </div>
+        <div class="tip">
+          <span class="tip-icon">🎬</span>
+          <div class="tip-content">
+            <h4>Skills Tutorial <span style="font-weight: 400; color: var(--muted);">20 min</span></h4>
+            <p>youtube.com/watch?v=2Vcn2bAu2FA — Step-by-step with real use case.</p>
           </div>
         </div>
       </div>
@@ -392,15 +425,15 @@ Tone: professional but warm. Length: 150-200 words.</div>
         <div class="tip" style="border-left: 3px solid var(--primary);">
           <span class="tip-icon">1️⃣</span>
           <div class="tip-content">
-            <h4>Use R.O.C.K. on your next prompt</h4>
-            <p>Before sending, check: Did I set a Role? State the Objective? Provide Context? List the Keys?</p>
+            <h4>Use R.O.C.K. + Paste on your next task</h4>
+            <p>Before sending: Role set? Objective clear? Context pasted (not described)? Keys defined?</p>
           </div>
         </div>
         <div class="tip" style="border-left: 3px solid var(--secondary);">
           <span class="tip-icon">2️⃣</span>
           <div class="tip-content">
-            <h4>Try the voice workflow</h4>
-            <p>Speak your thoughts in Wispr Flow → paste clean text into Claude → iterate.</p>
+            <h4>Create your first Claude Skill</h4>
+            <p>Take your most-used prompt, save it as a Skill. Tutorial: youtube.com/watch?v=2Vcn2bAu2FA</p>
           </div>
         </div>
       </div>
