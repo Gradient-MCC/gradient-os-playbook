@@ -649,7 +649,7 @@
 
     <div class="header">
       <div class="section-indicator" id="sectionIndicator">AI Skills</div>
-      <div class="slide-counter" id="slideCounter">1 / 12</div>
+      <div class="slide-counter" id="slideCounter">1 / 10</div>
     </div>
 
     <div class="slides" id="slides">
@@ -689,553 +689,360 @@
               <div class="spectrum-label"><strong>AI User</strong>Use when it helps</div>
 
               <div class="spectrum-marker level-2">2</div>
-              <div class="spectrum-label" style="left: 37%;"><strong>Practitioner</strong>Part of my job</div>
+              <div class="spectrum-label" style="left: 37%;"><strong>Practitioner</strong>Daily AI use</div>
 
               <div class="spectrum-marker level-3">3</div>
-              <div class="spectrum-label" style="left: 63%;"><strong>Designer</strong>Design workflows</div>
+              <div class="spectrum-label" style="left: 63%;"><strong>Designer</strong>Build workflows</div>
 
               <div class="spectrum-marker level-4">4</div>
-              <div class="spectrum-label" style="left: 88%;"><strong>Builder</strong>Build AI tools</div>
+              <div class="spectrum-label" style="left: 88%;"><strong>Builder</strong>Create AI tools</div>
             </div>
           </div>
 
-          <p class="text-body">The gap between Level 1 and Level 4 isn't just skill—it's speed, output quality, and the types of work you can take on. A Level 4 can do in 30 minutes what might take a Level 1 an entire day.</p>
+          <p class="text-body">The gap between levels isn't just skill—it's speed, output quality, and the types of work you can take on. Today we'll close the gap between Level 1 and Level 2.</p>
         </div>
       </div>
 
-      <!-- ==================== SLIDE 3: Level 1 Reality ==================== -->
-      <div class="slide content-slide" data-section="Level 1">
+      <!-- ==================== SLIDE 3: The Gap ==================== -->
+      <div class="slide content-slide" data-section="The Gap">
         <div class="slide-inner">
           <h3>🔍 You're Already Using AI. Here's the Gap.</h3>
-          <p class="text-lead">You use ChatGPT, Claude, Gemini. You've had good results. But you've also had sessions where it took 15 messages to get something usable. Here's why.</p>
+          <p class="text-lead">You use ChatGPT, Claude, Gemini. You've had good results. But you've also had sessions where it took 15 messages to get something usable.</p>
 
           <div class="cards-grid grid-3">
             <div class="card">
               <span class="card-icon">🔄</span>
               <div class="card-title">The iteration tax</div>
-              <div class="card-text">You ask for a strategy deck. Output is generic. "Make it more specific to our client." Better, but wrong tone. "More professional." Now it lost the edge. Round 8, you're editing it yourself anyway.</div>
+              <div class="card-text">"Make it more specific." Better, but wrong tone. "More professional." Now it lost the edge. Round 8, you're editing it yourself anyway.</div>
             </div>
             <div class="card">
               <span class="card-icon">🎯</span>
-              <div class="card-title">The "close but not quite" output</div>
-              <div class="card-text">AI produces something 70% right. But the 30% that's off is exactly the nuance that matters—the client relationship, the internal politics, the specific constraints nobody mentioned.</div>
+              <div class="card-title">70% right, 30% wrong</div>
+              <div class="card-text">The 30% that's off is exactly the nuance that matters—the client relationship, the internal politics, the specific constraints.</div>
             </div>
             <div class="card">
               <span class="card-icon">🧩</span>
-              <div class="card-title">Context in your head, not the prompt</div>
-              <div class="card-text">You know the backstory, the stakeholder dynamics, what worked last time. The AI doesn't. So it gives you a reasonable answer to a question you didn't fully ask.</div>
+              <div class="card-title">Context in your head</div>
+              <div class="card-text">You know the backstory, the stakeholder dynamics, what worked last time. The AI doesn't. So it answers a question you didn't fully ask.</div>
             </div>
           </div>
 
           <div class="highlight-box">
             <h4>💡 The insight</h4>
-            <p>The difference between "meh, I'll rewrite this" and "wow, that's 90% done" isn't prompt engineering tricks—it's what you include <em>before</em> you hit send. Two structural shifts close the gap.</p>
+            <p>The difference between "meh" and "wow, that's 90% done" isn't prompt tricks—it's what you include <em>before</em> you hit send. Two quick wins close the gap.</p>
           </div>
         </div>
       </div>
 
-      <!-- ==================== SLIDE 4: Quick Win #1 - Prompting ==================== -->
+      <!-- ==================== SLIDE 4: R.O.C.K. Framework ==================== -->
       <div class="slide content-slide" data-section="Quick Win #1">
         <div class="slide-inner">
-          <h3>⚡ Quick Win #1: The R.O.C.K. Framework</h3>
-          <p class="text-lead">You already know to give context. The difference is <em>structured</em> context vs. scattered context. R.O.C.K. makes sure nothing critical gets left out.</p>
+          <h3>⚡ Quick Win #1: R.O.C.K. + Paste</h3>
+          <p class="text-lead">Structure your context. Then show, don't describe.</p>
 
-          <div class="two-columns" style="gap: 40px;">
+          <div class="two-columns" style="gap: 32px;">
             <div>
-              <div class="prompt-example prompt-bad" style="margin-bottom: 16px;">
+              <div class="prompt-example prompt-bad" style="margin-bottom: 12px;">
                 <div class="prompt-label">❌ Typical approach</div>
-                <div class="prompt-text">Analyze our Q4 campaign performance and recommend where to increase budget next quarter. We ran paid social, search, and programmatic.</div>
+                <div class="prompt-text">Analyze our Q4 campaign performance and recommend where to increase budget. We ran paid social, search, and programmatic.</div>
               </div>
-              <p class="text-body" style="font-size: 0.85rem; color: var(--gradient-muted);">
-                → What's your success metric? ROAS? CAC? Revenue?<br>
-                → What were the actual numbers?<br>
-                → Budget constraints? Business priorities?<br>
-                → Who's the audience for this rec?<br><br>
-                <em>You'll get generic best practices, not your answer.</em>
+              <p class="text-body" style="font-size: 0.8rem; color: var(--gradient-muted);">
+                Missing: success metric, actual numbers, audience, constraints, format. You'll get generic advice.
               </p>
             </div>
             <div>
               <div class="prompt-example prompt-good">
-                <div class="prompt-label">✅ R.O.C.K. Applied</div>
-                <div class="prompt-text"><span style="color: #EF7847; font-weight: 600;">[R]</span> You're a performance marketing strategist presenting to the CFO.
+                <div class="prompt-label">✅ R.O.C.K. + Paste</div>
+                <div class="prompt-text"><span style="color: #EF7847; font-weight: 600;">[R]</span> Performance strategist → CFO
 
-<span style="color: #039DFF; font-weight: 600;">[O]</span> Recommend Q1 budget allocation across channels. Goal: maximize ROAS while maintaining brand reach.
+<span style="color: #039DFF; font-weight: 600;">[O]</span> Recommend Q1 budget allocation. Goal: maximize ROAS, maintain reach.
 
-<span style="color: #6AC19D; font-weight: 600;">[C]</span> Q4 results: [paste actual data]. Total budget: $150K. CFO prioritizes efficiency, but CEO wants market presence.
+<span style="color: #6AC19D; font-weight: 600;">[C]</span> [paste actual Q4 data table]
+CFO wants efficiency. CEO wants presence.
 
-<span style="color: #FFD851; font-weight: 600;">[K]</span> Format: 3 scenarios (conservative/balanced/aggressive). Include trade-offs, projected ROAS, risk factors. One-pager for exec review.</div>
+<span style="color: #FFD851; font-weight: 600;">[K]</span> 3 scenarios. Trade-offs + risks. One-pager.</div>
               </div>
+            </div>
+          </div>
+
+          <div class="cards-grid grid-4" style="margin-top: 20px; grid-template-columns: repeat(4, 1fr);">
+            <div class="card" style="padding: 12px; border-left: 3px solid #EF7847;">
+              <div class="card-title" style="font-size: 0.9rem; color: #EF7847;">R — Role</div>
+              <div class="card-text" style="font-size: 0.75rem;">Who's writing? For whom?</div>
+            </div>
+            <div class="card" style="padding: 12px; border-left: 3px solid #039DFF;">
+              <div class="card-title" style="font-size: 0.9rem; color: #039DFF;">O — Objective</div>
+              <div class="card-text" style="font-size: 0.75rem;">What decision does this enable?</div>
+            </div>
+            <div class="card" style="padding: 12px; border-left: 3px solid #6AC19D;">
+              <div class="card-title" style="font-size: 0.9rem; color: #6AC19D;">C — Context</div>
+              <div class="card-text" style="font-size: 0.75rem;">Paste data, emails, briefs—don't describe</div>
+            </div>
+            <div class="card" style="padding: 12px; border-left: 3px solid #FFD851;">
+              <div class="card-title" style="font-size: 0.9rem; color: #FFD851;">K — Keys</div>
+              <div class="card-text" style="font-size: 0.75rem;">Format, length, must-includes</div>
             </div>
           </div>
         </div>
       </div>
 
-      <!-- ==================== SLIDE 4b: R.O.C.K. Breakdown ==================== -->
-      <div class="slide content-slide" data-section="Quick Win #1">
+      <!-- ==================== SLIDE 5: The Tools ==================== -->
+      <div class="slide content-slide" data-section="The Tools">
         <div class="slide-inner">
-          <h3>🎯 R.O.C.K. Breakdown</h3>
-          <p class="text-lead">Each letter answers a question the AI will guess at (poorly) if you don't provide it.</p>
+          <h3>🛠️ The Tools: Your AI Stack</h3>
+          <p class="text-lead">Two tools that work beautifully together. Get them both.</p>
 
-          <div class="cards-grid grid-2" style="margin-top: 24px;">
-            <div class="card" style="border-left: 4px solid #EF7847;">
-              <div class="card-title" style="color: #EF7847;">R — Role</div>
-              <div class="card-text" style="margin-bottom: 12px;"><strong>Who's writing this? For whom?</strong></div>
-              <div class="card-text" style="font-size: 0.85rem;">
-                <em>"You're a performance marketing strategist presenting to the CFO"</em><br><br>
-                This changes everything—vocabulary, level of detail, what to emphasize. A strategist for CFO focuses on ROI; same content for CEO emphasizes market position.
+          <div class="two-columns" style="gap: 32px; margin-top: 24px;">
+            <div class="card" style="border-top: 4px solid #6AC19D;">
+              <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 16px;">
+                <img src="https://www.google.com/s2/favicons?domain=wisprflow.ai&sz=64" alt="Wispr Flow" style="width: 48px; height: 48px; border-radius: 8px;">
+                <div>
+                  <div class="card-title" style="margin: 0;">Wispr Flow</div>
+                  <div style="font-size: 0.75rem; color: var(--gradient-muted);">wisprflow.ai</div>
+                </div>
+              </div>
+              <div class="card-text">
+                <strong>Voice → polished text</strong><br><br>
+                Speak naturally, get clean text. Removes filler words, adds punctuation, fixes grammar. <strong>4x faster than typing.</strong><br><br>
+                Perfect for: brain dumps, meeting notes, first drafts of anything. Works everywhere on your Mac.
               </div>
             </div>
-            <div class="card" style="border-left: 4px solid #039DFF;">
-              <div class="card-title" style="color: #039DFF;">O — Objective</div>
-              <div class="card-text" style="margin-bottom: 12px;"><strong>What decision does this enable?</strong></div>
-              <div class="card-text" style="font-size: 0.85rem;">
-                <em>"Goal: maximize ROAS while maintaining brand reach"</em><br><br>
-                Not "analyze data" but "recommend budget allocation." The tension between two goals (efficiency vs. reach) shapes the entire analysis.
+            <div class="card" style="border-top: 4px solid #039DFF;">
+              <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 16px;">
+                <img src="https://www.google.com/s2/favicons?domain=claude.ai&sz=64" alt="Claude" style="width: 48px; height: 48px; border-radius: 8px;">
+                <div>
+                  <div class="card-title" style="margin: 0;">Claude Desktop</div>
+                  <div style="font-size: 0.75rem; color: var(--gradient-muted);">claude.ai/download</div>
+                </div>
               </div>
-            </div>
-            <div class="card" style="border-left: 4px solid #6AC19D;">
-              <div class="card-title" style="color: #6AC19D;">C — Context</div>
-              <div class="card-text" style="margin-bottom: 12px;"><strong>What does the AI need to see?</strong></div>
-              <div class="card-text" style="font-size: 0.85rem;">
-                <em>"Q4 results: [paste actual data]. CFO prioritizes efficiency, CEO wants market presence."</em><br><br>
-                The real numbers. The internal politics. The constraints nobody thinks to mention but everyone knows.
+              <div class="card-text">
+                <strong>AI that works with your files</strong><br><br>
+                Desktop app with <strong>Cowork mode</strong>. Give it access to folders—it can read, analyze, and help you work on actual documents.<br><br>
+                Perfect for: analysis, writing, research. Sees what you see.
               </div>
-            </div>
-            <div class="card" style="border-left: 4px solid #FFD851;">
-              <div class="card-title" style="color: #FFD851;">K — Keys</div>
-              <div class="card-text" style="margin-bottom: 12px;"><strong>What's the deliverable format?</strong></div>
-              <div class="card-text" style="font-size: 0.85rem;">
-                <em>"3 scenarios. Include trade-offs, projected ROAS, risk factors. One-pager."</em><br><br>
-                Your acceptance criteria upfront. Without these, you'll be back saying "can you add a conservative option?" "make it shorter"
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- ==================== SLIDE 5: Context - Paste Don't Describe ==================== -->
-      <div class="slide content-slide" data-section="Quick Win #1">
-        <div class="slide-inner">
-          <h3>📋 The Context Rule: Paste, Don't Describe</h3>
-          <p class="text-lead">You know to "give context." But there's a difference between describing context and showing it.</p>
-
-          <div class="two-columns" style="gap: 32px;">
-            <div>
-              <div class="prompt-example prompt-bad" style="margin-bottom: 16px;">
-                <div class="prompt-label">❌ Describing (you're still translating)</div>
-                <div class="prompt-text">The campaign performance was mixed. Paid social did okay, search was strong, programmatic underperformed. We spent about $150K total.</div>
-              </div>
-              <p class="text-body" style="font-size: 0.85rem; color: var(--gradient-muted);">
-                What's "mixed"? What's "okay"? You've already interpreted the data—the AI can't challenge or find patterns you missed.
-              </p>
-            </div>
-            <div>
-              <div class="prompt-example prompt-good" style="margin-bottom: 16px;">
-                <div class="prompt-label">✅ Pasting (let AI see raw truth)</div>
-                <div class="prompt-text">Here's our Q4 performance export:
-
-Channel | Spend | Revenue | ROAS
-Paid Social | $52K | $89K | 1.71
-Search | $68K | $204K | 3.00
-Programmatic | $30K | $36K | 1.20</div>
-              </div>
-              <p class="text-body" style="font-size: 0.85rem; color: var(--gradient-muted);">
-                Now AI can do math, spot ratios, find the real story—not your interpretation of it.
-              </p>
             </div>
           </div>
 
           <div class="highlight-box" style="margin-top: 24px;">
-            <h4>📋 What to paste: data exports, client emails, briefs, competitor pages, style samples, feedback threads</h4>
-            <p>Anything you're summarizing, paste instead. Let AI do the summarizing—that's what it's good at.</p>
+            <h4>💡 The workflow</h4>
+            <p><strong>Wispr Flow</strong> gets your thoughts out fast → <strong>Claude Desktop</strong> turns them into polished output with your files as context.</p>
           </div>
         </div>
       </div>
 
-      <!-- ==================== SLIDE 5b: Putting It Together ==================== -->
-      <div class="slide content-slide" data-section="Quick Win #1">
+      <!-- ==================== SLIDE 6: Workflow in Action ==================== -->
+      <div class="slide content-slide" data-section="Workflow">
         <div class="slide-inner">
-          <h3>🔄 Quick Win #1 in Action</h3>
-          <p class="text-lead">R.O.C.K. + Paste Context + Iterate. Here's the complete pattern.</p>
+          <h3>🔄 The Workflow in Action</h3>
+          <p class="text-lead">Here's how R.O.C.K. + Tools come together.</p>
 
           <div class="workflow-steps" style="margin-top: 20px;">
-            <div class="workflow-step" style="border-left-color: #EF7847;">
-              <div class="workflow-step-number" style="background: #EF7847;">1</div>
-              <div class="workflow-step-content">
-                <h5>Set up with R.O.C.K.</h5>
-                <p><span style="color: #EF7847;">[R]</span> Who's writing, for whom → <span style="color: #039DFF;">[O]</span> What decision this enables → <span style="color: #FFD851;">[K]</span> Deliverable format, constraints</p>
-              </div>
-            </div>
             <div class="workflow-step" style="border-left-color: #6AC19D;">
-              <div class="workflow-step-number" style="background: #6AC19D;">2</div>
+              <div class="workflow-step-number" style="background: #6AC19D;">1</div>
               <div class="workflow-step-content">
-                <h5>Paste, don't describe</h5>
-                <p><span style="color: #6AC19D;">[C]</span> Raw data, actual emails, real briefs—whatever context exists in your world, let AI see it directly.</p>
+                <h5>Voice dump your thoughts (Wispr Flow)</h5>
+                <p>"I need to write a proposal for the Acme client about expanding their SEO program. They've been with us 2 years, they're detail-oriented, budget is around 50K..."</p>
               </div>
             </div>
             <div class="workflow-step" style="border-left-color: #039DFF;">
-              <div class="workflow-step-number" style="background: #039DFF;">3</div>
+              <div class="workflow-step-number" style="background: #039DFF;">2</div>
               <div class="workflow-step-content">
-                <h5>First output is a draft</h5>
-                <p>Expect to iterate. "Emphasize X more" → "Cut the second section" → "Add specific numbers from the data" → Each round gets closer.</p>
+                <h5>Add R.O.C.K. structure + paste context (Claude)</h5>
+                <p><span style="color: #EF7847;">[R]</span> Senior account manager → CMO <span style="color: #039DFF;">[O]</span> Upsell with clear ROI <span style="color: #6AC19D;">[C]</span> Paste: current results, client brief, past emails <span style="color: #FFD851;">[K]</span> 2 pages, include pricing tiers</p>
               </div>
             </div>
-            <div class="workflow-step" style="border-left-color: #8BB8D0;">
-              <div class="workflow-step-number" style="background: #8BB8D0;">4</div>
+            <div class="workflow-step" style="border-left-color: #EF7847;">
+              <div class="workflow-step-number" style="background: #EF7847;">3</div>
               <div class="workflow-step-content">
-                <h5>Human polish at 80%</h5>
-                <p>Stop when you're 80% there. The last 20% is your expertise, judgment, and the things only you know. That's the human value.</p>
+                <h5>Iterate to 80%, then polish</h5>
+                <p>"Make the ROI section more specific" → "Shorten the intro" → "Add a case study" → Done in 3-4 rounds. Human polish on the last 20%.</p>
               </div>
             </div>
           </div>
 
-          <div class="highlight-box" style="margin-top: 16px;">
+          <div class="highlight-box" style="margin-top: 20px;">
             <h4>⚡ This alone will 2-3x your output quality</h4>
-            <p>Most people never get past step 1. Just using this pattern puts you ahead of 90% of AI users.</p>
+            <p>Most people never structure their prompts or paste real context. Just doing this puts you ahead of 90% of AI users.</p>
           </div>
         </div>
       </div>
 
-      <!-- ==================== SLIDE: Quick Win #2 - Claude Skills ==================== -->
+      <!-- ==================== SLIDE 7: Quick Win #2 - Claude Skills ==================== -->
       <div class="slide content-slide" data-section="Quick Win #2">
         <div class="slide-inner">
           <h3>⚡ Quick Win #2: Claude Skills</h3>
-          <p class="text-lead">Quick Win #1 showed you the pattern. But what if you didn't have to write it out every time?</p>
+          <p class="text-lead">What if you didn't have to write R.O.C.K. every time? Save your best prompts.</p>
 
-          <div class="two-columns" style="gap: 32px; margin-top: 24px;">
+          <div class="two-columns" style="gap: 32px; margin-top: 16px;">
             <div>
-              <div class="prompt-example prompt-bad" style="margin-bottom: 16px;">
+              <div class="prompt-example prompt-bad" style="margin-bottom: 12px;">
                 <div class="prompt-label">❌ Every time you need a proposal...</div>
-                <div class="prompt-text">[R] You're an account manager presenting to...
+                <div class="prompt-text">[R] You're an account manager...
 [O] Goal: upsell while showing ROI...
-[C] Client history, past results, relationship...
-[K] Format, length, sections to include...
+[C] Client history, past results...
+[K] Format, length, sections...
 
-(Copy-paste or rewrite each time)</div>
+(Rewrite each time)</div>
               </div>
             </div>
             <div>
-              <div class="prompt-example prompt-good" style="margin-bottom: 16px;">
+              <div class="prompt-example prompt-good" style="margin-bottom: 12px;">
                 <div class="prompt-label">✅ With a Claude Skill...</div>
                 <div class="prompt-text">/proposal
 
-[Your R.O.C.K. template auto-fills]
-[You just add the client-specific context]
+[Template auto-fills]
+[Just paste this client's context]
 
 (Done in 10 seconds)</div>
               </div>
             </div>
           </div>
 
-          <div class="highlight-box" style="margin-top: 24px;">
-            <h4>💡 Skills = Saved prompts you can invoke with a slash command</h4>
-            <p>Take that perfectly crafted R.O.C.K. prompt, save it as a Skill, and invoke it with <code>/proposal</code> or <code>/analysis</code> or <code>/weekly-report</code>. Your best prompts, always ready.</p>
+          <div class="cards-grid grid-3" style="margin-top: 16px;">
+            <div class="card" style="padding: 16px;">
+              <span class="card-icon" style="font-family: monospace; font-size: 1rem; color: var(--gradient-primary);">/proposal</span>
+              <div class="card-text" style="font-size: 0.8rem;">Your proposal structure, pre-loaded. Paste brief, get draft.</div>
+            </div>
+            <div class="card" style="padding: 16px;">
+              <span class="card-icon" style="font-family: monospace; font-size: 1rem; color: var(--gradient-secondary);">/meeting</span>
+              <div class="card-text" style="font-size: 0.8rem;">Paste raw notes → action items, decisions, follow-ups.</div>
+            </div>
+            <div class="card" style="padding: 16px;">
+              <span class="card-icon" style="font-family: monospace; font-size: 1rem; color: var(--gradient-accent);">/weekly</span>
+              <div class="card-text" style="font-size: 0.8rem;">Your report template. Paste updates, get formatted report.</div>
+            </div>
+          </div>
+
+          <div class="highlight-box" style="margin-top: 16px;">
+            <h4>💡 Skills = Saved prompts with a slash command</h4>
+            <p>Your best R.O.C.K. prompts, always ready. <code>/proposal</code>, <code>/analysis</code>, <code>/weekly-report</code>—whatever you repeat.</p>
           </div>
         </div>
       </div>
 
-      <!-- ==================== SLIDE: Skills Examples ==================== -->
+      <!-- ==================== SLIDE 8: Creating Skills + Video ==================== -->
       <div class="slide content-slide" data-section="Quick Win #2">
         <div class="slide-inner">
-          <h3>🛠️ Skills You Could Create</h3>
-          <p class="text-lead">Think about the prompts you write over and over. Those are your Skills candidates.</p>
+          <h3>📝 Create Your First Skill</h3>
+          <p class="text-lead">Takes 5 minutes. Saves hours over time.</p>
 
-          <div class="cards-grid grid-3" style="margin-top: 20px;">
-            <div class="card">
-              <span class="card-icon" style="font-family: monospace; font-size: 1.2rem; color: var(--gradient-primary);">/proposal</span>
-              <div class="card-title">Client Proposal</div>
-              <div class="card-text">Pre-loaded with your role, proposal structure, tone guidelines. You just paste the client brief and specifics.</div>
-            </div>
-            <div class="card">
-              <span class="card-icon" style="font-family: monospace; font-size: 1.2rem; color: var(--gradient-secondary);">/meeting-recap</span>
-              <div class="card-title">Meeting Summary</div>
-              <div class="card-text">Formats notes into action items, decisions, and follow-ups. Paste raw notes, get structured output.</div>
-            </div>
-            <div class="card">
-              <span class="card-icon" style="font-family: monospace; font-size: 1.2rem; color: var(--gradient-accent);">/competitor</span>
-              <div class="card-title">Competitor Analysis</div>
-              <div class="card-text">Your analysis framework built in. Paste competitor content, get structured breakdown in your format.</div>
-            </div>
-            <div class="card">
-              <span class="card-icon" style="font-family: monospace; font-size: 1.2rem; color: #FFD851;">/weekly</span>
-              <div class="card-title">Weekly Report</div>
-              <div class="card-text">Your report template, sections, and tone. Paste this week's updates, get formatted report.</div>
-            </div>
-            <div class="card">
-              <span class="card-icon" style="font-family: monospace; font-size: 1.2rem; color: var(--gradient-muted);">/email-response</span>
-              <div class="card-title">Client Email Response</div>
-              <div class="card-text">Your professional tone, response structure. Paste the email you're replying to, get draft response.</div>
-            </div>
-            <div class="card">
-              <span class="card-icon" style="font-family: monospace; font-size: 1.2rem; color: var(--gradient-primary);">/brief-review</span>
-              <div class="card-title">Brief Review</div>
-              <div class="card-text">Analyzes client briefs for gaps, questions to ask, red flags. Paste brief, get review checklist.</div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- ==================== SLIDE: How to Create Skills ==================== -->
-      <div class="slide content-slide" data-section="Quick Win #2">
-        <div class="slide-inner">
-          <h3>📝 Creating Your First Skill</h3>
-          <p class="text-lead">In Claude Desktop, Skills are just saved prompts with a trigger. Here's how to make one.</p>
-
-          <div class="workflow-steps" style="margin-top: 20px;">
+          <div class="workflow-steps" style="margin-top: 16px;">
             <div class="workflow-step" style="border-left-color: #6AC19D;">
               <div class="workflow-step-number" style="background: #6AC19D;">1</div>
               <div class="workflow-step-content">
-                <h5>Write your best prompt</h5>
-                <p>Use R.O.C.K. to structure it. Include your Role, Objective, default Context, and Keys. Mark where variable info goes with [brackets].</p>
+                <h5>Pick your most-repeated prompt</h5>
+                <p>What do you write over and over? Proposals, meeting summaries, client emails, weekly reports?</p>
               </div>
             </div>
             <div class="workflow-step" style="border-left-color: #039DFF;">
               <div class="workflow-step-number" style="background: #039DFF;">2</div>
               <div class="workflow-step-content">
-                <h5>Save it as a Skill</h5>
-                <p>In Claude Desktop: Settings → Skills → Create Skill. Give it a name (this becomes your /command) and paste your prompt template.</p>
+                <h5>Structure it with R.O.C.K.</h5>
+                <p>Write your best version. Mark variable parts with [brackets] like [client name], [paste data here].</p>
               </div>
             </div>
             <div class="workflow-step" style="border-left-color: #EF7847;">
               <div class="workflow-step-number" style="background: #EF7847;">3</div>
               <div class="workflow-step-content">
-                <h5>Use it</h5>
-                <p>Type <code>/your-skill-name</code> in any conversation. Your template loads. Fill in the [brackets] with this-time-specific context. Done.</p>
+                <h5>Save as Skill in Claude Desktop</h5>
+                <p>Settings → Skills → Create. Name it (becomes your /command). Paste your template. Done.</p>
               </div>
             </div>
           </div>
 
-          <div class="highlight-box" style="margin-top: 20px;">
-            <h4>🎯 Start with ONE skill</h4>
-            <p>What's the prompt you write most often? That's your first Skill. Perfect it, then add more. Within a week you'll wonder how you worked without them.</p>
-          </div>
-
-          <div style="margin-top: 20px; padding: 16px; background: rgba(3, 157, 255, 0.1); border: 1px solid rgba(3, 157, 255, 0.3); border-radius: 12px;">
-            <div style="display: flex; align-items: center; gap: 12px;">
-              <span style="font-size: 1.5rem;">🎬</span>
+          <div style="margin-top: 24px; padding: 20px; background: rgba(3, 157, 255, 0.1); border: 1px solid rgba(3, 157, 255, 0.3); border-radius: 12px;">
+            <div style="display: flex; align-items: center; gap: 16px;">
+              <span style="font-size: 2rem;">🎬</span>
               <div>
-                <div style="font-weight: 600; color: var(--gradient-light);">20-Minute Tutorial: Create Your First Skill</div>
-                <a href="https://www.youtube.com/watch?v=2Vcn2bAu2FA" target="_blank" style="color: var(--gradient-secondary); font-size: 0.85rem;">youtube.com/watch?v=2Vcn2bAu2FA</a>
-                <p style="color: var(--gradient-muted); font-size: 0.8rem; margin-top: 4px;">Step-by-step walkthrough with a real use case. Watch this and you'll have your first Skill running.</p>
+                <div style="font-weight: 600; color: var(--gradient-light); font-size: 1.1rem;">20-Minute Tutorial: Create Your First Skill</div>
+                <a href="https://www.youtube.com/watch?v=2Vcn2bAu2FA" target="_blank" style="color: var(--gradient-secondary); font-size: 0.9rem;">youtube.com/watch?v=2Vcn2bAu2FA</a>
+                <p style="color: var(--gradient-muted); font-size: 0.85rem; margin-top: 6px;">Step-by-step walkthrough with a real use case. Watch this and you'll have your first Skill running today.</p>
               </div>
             </div>
           </div>
         </div>
       </div>
 
-      <!-- ==================== SLIDE: The Gap ==================== -->
-      <div class="slide content-slide" data-section="The Gap">
+      <!-- ==================== SLIDE 9: What Level 3-4 Looks Like ==================== -->
+      <div class="slide content-slide" data-section="Level 3-4">
         <div class="slide-inner">
-          <h3>📈 The Productivity Gap</h3>
-          <p class="text-lead">Here's what Level 3-4 looks like in practice. Same type of work, completely different approach.</p>
+          <h3>🔮 What Level 3-4 Looks Like</h3>
+          <p class="text-lead">This is where it gets interesting. Same work, completely different approach.</p>
 
-          <div class="comparison">
-            <div class="comparison-side before">
-              <h4>📝 Traditional Workflow</h4>
-              <ul class="comparison-list">
-                <li><span>1.</span> Research topic manually (2 hours)</li>
-                <li><span>2.</span> Gather reference documents (1 hour)</li>
-                <li><span>3.</span> Outline structure (30 min)</li>
-                <li><span>4.</span> Write first draft (3 hours)</li>
-                <li><span>5.</span> Design slides one by one (2 hours)</li>
-                <li><span>6.</span> Review and revise (1 hour)</li>
-                <li><span>7.</span> Format and polish (1 hour)</li>
-              </ul>
+          <div class="two-columns" style="gap: 24px;">
+            <div>
+              <div class="time-comparison" style="margin: 0; grid-template-columns: 1fr;">
+                <div class="time-block old" style="margin-bottom: 16px;">
+                  <h4>Traditional: 10+ hours</h4>
+                  <div class="time-value" style="font-size: 2rem;">10.5h</div>
+                  <div class="time-label">Research, draft, design, revise...</div>
+                </div>
+                <div class="time-block new">
+                  <h4>AI-Native: ~1 hour</h4>
+                  <div class="time-value" style="font-size: 2rem;">~1h</div>
+                  <div class="time-label">Context → Generate → Iterate → Polish</div>
+                </div>
+              </div>
             </div>
-            <div class="comparison-arrow">→</div>
-            <div class="comparison-side after">
-              <h4>🚀 AI-Native Workflow</h4>
-              <ul class="comparison-list">
-                <li><span>1.</span> Describe goal + paste context (5 min)</li>
-                <li><span>2.</span> AI generates research summary (instant)</li>
-                <li><span>3.</span> Collaborate on structure (10 min)</li>
-                <li><span>4.</span> AI drafts full content (instant)</li>
-                <li><span>5. </span> AI generates complete deck (instant)</li>
-                <li><span>6.</span> Iterate on specific sections (20 min)</li>
-                <li><span>7.</span> Human polish + final review (30 min)</li>
-              </ul>
+            <div>
+              <div class="card" style="height: 100%;">
+                <div class="card-title">Real example: This playbook</div>
+                <div class="card-text" style="font-size: 0.85rem;">
+                  <strong>50+ slides. Professional design. Comprehensive content.</strong><br><br>
+                  Built through conversation with AI. Content AND code together. Changes deployed in minutes.<br><br>
+                  <em>This very slide deck was created the same way. You're looking at AI-assisted work right now.</em>
+                </div>
+              </div>
             </div>
           </div>
 
-          <div class="time-comparison">
-            <div class="time-block old">
-              <h4>Traditional</h4>
-              <div class="time-value">10.5h</div>
-              <div class="time-label">spread across days</div>
+          <div class="cards-grid grid-3" style="margin-top: 20px;">
+            <div class="card" style="padding: 16px;">
+              <span class="card-icon" style="font-size: 1.5rem;">📊</span>
+              <div class="card-text" style="font-size: 0.8rem;"><strong>Full presentations</strong><br>Research → content → design in one workflow</div>
             </div>
-            <div class="time-block new">
-              <h4>AI-Native</h4>
-              <div class="time-value">~1h</div>
-              <div class="time-label">in one session</div>
+            <div class="card" style="padding: 16px;">
+              <span class="card-icon" style="font-size: 1.5rem;">🔧</span>
+              <div class="card-text" style="font-size: 0.8rem;"><strong>Custom tools</strong><br>Build internal tools. No dev team needed.</div>
+            </div>
+            <div class="card" style="padding: 16px;">
+              <span class="card-icon" style="font-size: 1.5rem;">🤖</span>
+              <div class="card-text" style="font-size: 0.8rem;"><strong>Automated workflows</strong><br>Systems that work while you sleep</div>
             </div>
           </div>
         </div>
       </div>
 
-      <!-- ==================== SLIDE 8: Real Example ==================== -->
-      <div class="slide content-slide" data-section="Real Example">
+      <!-- ==================== SLIDE 10: Your Two Actions + Closing ==================== -->
+      <div class="slide title-slide" data-section="Take Action">
         <div class="slide-inner">
-          <h3>🎯 Real Example: This Playbook</h3>
-          <p class="text-lead">The Gradient OS Playbook you've seen? 50+ slides, professional design, comprehensive content. Here's how it was actually made.</p>
+          <h1>Your Two Actions This Week</h1>
 
-          <div class="cards-grid grid-2">
-            <div class="card">
-              <span class="card-icon">💬</span>
-              <div class="card-title">Collaborative conversation</div>
-              <div class="card-text">Not "write me a playbook." Instead: ongoing dialogue, iterating on sections, refining based on feedback. The AI understood the project deeply because we built context together.</div>
-            </div>
-            <div class="card">
-              <span class="card-icon">🛠️</span>
-              <div class="card-title">Code + Content together</div>
-              <div class="card-text">AI handled both the writing AND the HTML/CSS. One tool, one workflow. Changes to content and design happened in the same conversation.</div>
-            </div>
-            <div class="card">
-              <span class="card-icon">🔄</span>
-              <div class="card-title">Rapid iteration</div>
-              <div class="card-text">"Move this tool to that category." "Change the metrics mapping." "Update the hackathon section." Changes deployed in minutes, not hours.</div>
-            </div>
-            <div class="card">
-              <span class="card-icon">🚀</span>
-              <div class="card-title">Direct to production</div>
-              <div class="card-text">From conversation to git commit to Vercel deployment. No switching between writing, design, and dev tools. One continuous workflow.</div>
-            </div>
-          </div>
-
-          <div class="highlight-box">
-            <h4>⚡ The meta point</h4>
-            <p>This very slide deck was created the same way. You're looking at AI-assisted work right now—and you probably couldn't tell until I mentioned it.</p>
-          </div>
-        </div>
-      </div>
-
-      <!-- ==================== SLIDE 9: What's Possible ==================== -->
-      <div class="slide content-slide" data-section="What's Possible">
-        <div class="slide-inner">
-          <h3>🔮 What Becomes Possible</h3>
-          <p class="text-lead">At Level 3-4, the types of work you can take on completely change.</p>
-
-          <div class="cards-grid grid-3">
-            <div class="card">
-              <span class="card-icon">📊</span>
-              <div class="card-title">Full presentations</div>
-              <div class="card-text">Research, content, design, and delivery—all in one workflow. Hours become minutes.</div>
-            </div>
-            <div class="card">
-              <span class="card-icon">🔧</span>
-              <div class="card-title">Custom tools</div>
-              <div class="card-text">Build internal tools that solve your specific problems. No dev team needed.</div>
-            </div>
-            <div class="card">
-              <span class="card-icon">📈</span>
-              <div class="card-title">Data analysis</div>
-              <div class="card-text">Feed in spreadsheets, get insights. Create visualizations. Spot patterns humans miss.</div>
-            </div>
-            <div class="card">
-              <span class="card-icon">✍️</span>
-              <div class="card-title">Content at scale</div>
-              <div class="card-text">Consistent voice across dozens of pieces. Maintain quality while increasing volume.</div>
-            </div>
-            <div class="card">
-              <span class="card-icon">🤖</span>
-              <div class="card-title">Automated workflows</div>
-              <div class="card-text">Connect tools, automate repetitive tasks, build systems that work while you sleep.</div>
-            </div>
-            <div class="card">
-              <span class="card-icon">💡</span>
-              <div class="card-title">Rapid prototyping</div>
-              <div class="card-text">Test ideas in minutes. Build MVPs before committing resources. Fail fast, learn faster.</div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- ==================== SLIDE 10: Your Two Actions ==================== -->
-      <div class="slide content-slide" data-section="Take Action">
-        <div class="slide-inner">
-          <h3>✅ Your Two Actions This Week</h3>
-          <p class="text-lead">You don't need to become Level 4 overnight. Start with these two shifts and you'll immediately feel the difference.</p>
-
-          <div class="cards-grid grid-2">
-            <div class="card" style="border-color: rgba(106, 193, 157, 0.5);">
+          <div class="two-columns" style="gap: 32px; margin-top: 32px; text-align: left; max-width: 800px;">
+            <div class="card" style="background: rgba(106, 193, 157, 0.1); border: 1px solid rgba(106, 193, 157, 0.3);">
               <span class="card-icon">1️⃣</span>
-              <div class="card-title">Use R.O.C.K. + Paste on your next task</div>
+              <div class="card-title">R.O.C.K. + Paste your next task</div>
               <div class="card-text">
-                <ul class="checklist">
-                  <li><span class="check">→</span> <strong>R</strong>ole: Who's writing? For whom?</li>
-                  <li><span class="check">→</span> <strong>O</strong>bjective: What decision does this enable?</li>
-                  <li><span class="check">→</span> <strong>C</strong>ontext: Paste the raw data, emails, briefs</li>
-                  <li><span class="check">→</span> <strong>K</strong>eys: Format, length, must-includes</li>
-                </ul>
+                <span style="color: #EF7847;">R</span>ole → <span style="color: #039DFF;">O</span>bjective → <span style="color: #6AC19D;">C</span>ontext (paste!) → <span style="color: #FFD851;">K</span>eys
               </div>
             </div>
-            <div class="card" style="border-color: rgba(3, 157, 255, 0.5);">
+            <div class="card" style="background: rgba(3, 157, 255, 0.1); border: 1px solid rgba(3, 157, 255, 0.3);">
               <span class="card-icon">2️⃣</span>
               <div class="card-title">Create your first Claude Skill</div>
               <div class="card-text">
-                <ul class="checklist">
-                  <li><span class="check">→</span> Pick your most-repeated prompt</li>
-                  <li><span class="check">→</span> Structure it with R.O.C.K.</li>
-                  <li><span class="check">→</span> Save as a Skill in Claude Desktop</li>
-                  <li><span class="check">→</span> Use /your-skill next time you need it</li>
-                </ul>
+                Pick one prompt you repeat. Save it. Use /it next time.
               </div>
             </div>
           </div>
 
-          <div class="highlight-box">
-            <h4>🎯 The compound effect</h4>
-            <p>Quick Win #1 makes your prompts 2-3x more effective. Quick Win #2 means you never have to write that prompt again. Together, they transform how you work with AI.</p>
-          </div>
-        </div>
-      </div>
-
-      <!-- ==================== SLIDE 11: The Journey ==================== -->
-      <div class="slide content-slide" data-section="The Journey">
-        <div class="slide-inner">
-          <h3>🚀 The Journey Ahead</h3>
-          <p class="text-lead">Level 1 to Level 4 doesn't happen overnight. But every step unlocks new capabilities.</p>
-
-          <div class="spectrum-container">
-            <div class="spectrum-line">
-              <div class="spectrum-marker level-1">1</div>
-              <div class="spectrum-label"><strong>Today</strong>Better prompts</div>
-
-              <div class="spectrum-marker level-2">2</div>
-              <div class="spectrum-label" style="left: 37%;"><strong>Week 2-4</strong>Daily AI use</div>
-
-              <div class="spectrum-marker level-3">3</div>
-              <div class="spectrum-label" style="left: 63%;"><strong>Month 2-3</strong>Design workflows</div>
-
-              <div class="spectrum-marker level-4">4</div>
-              <div class="spectrum-label" style="left: 88%;"><strong>Month 6+</strong>Build tools</div>
-            </div>
-          </div>
-
-          <p class="text-body" style="text-align: center; margin-top: 24px;">The workshops, the resources, the AI Product Owners—they're all here to help you move along this spectrum. The only question is: how fast do you want to go?</p>
-        </div>
-      </div>
-
-      <!-- ==================== SLIDE 12: Closing ==================== -->
-      <div class="slide title-slide" data-section="Closing">
-        <div class="slide-inner">
-          <h1>Start This Week</h1>
-          <p class="subtitle">R.O.C.K. your next prompt. Then save it as a Skill.<br>Two shifts. Compounding returns.</p>
-          <div class="stats-row" style="margin-top: 48px;">
-            <div class="stat">
-              <div class="stat-value">🎯</div>
-              <div class="stat-label">R.O.C.K. + Paste</div>
-            </div>
-            <div class="stat">
-              <div class="stat-value">⚡</div>
-              <div class="stat-label">Create a Skill</div>
-            </div>
-            <div class="stat">
-              <div class="stat-value">📈</div>
-              <div class="stat-label">Level Up</div>
-            </div>
-          </div>
-          <div style="margin-top: 32px;">
-            <p style="color: var(--gradient-muted); font-size: 0.9rem;">Tutorial: <a href="https://www.youtube.com/watch?v=2Vcn2bAu2FA" target="_blank" style="color: var(--gradient-secondary);">youtube.com/watch?v=2Vcn2bAu2FA</a></p>
+          <div style="margin-top: 40px; padding: 20px; background: rgba(255,255,255,0.05); border-radius: 12px; max-width: 600px;">
+            <p style="color: var(--gradient-muted); font-size: 0.9rem; margin-bottom: 12px;"><strong>Get the tools + resources:</strong></p>
+            <p style="color: var(--gradient-light); font-size: 0.85rem;">
+              Wispr Flow: <a href="https://wisprflow.ai" target="_blank" style="color: var(--gradient-primary);">wisprflow.ai</a><br>
+              Claude Desktop: <a href="https://claude.ai/download" target="_blank" style="color: var(--gradient-secondary);">claude.ai/download</a><br>
+              Skills Tutorial: <a href="https://www.youtube.com/watch?v=2Vcn2bAu2FA" target="_blank" style="color: var(--gradient-accent);">youtube.com/watch?v=2Vcn2bAu2FA</a><br>
+              <strong>R.O.C.K. Cheat Sheet:</strong> <a href="cheatsheet.html" target="_blank" style="color: var(--gradient-warning);">cheatsheet.html</a>
+            </p>
           </div>
         </div>
       </div>
