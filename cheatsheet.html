@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Prompting Cheat Sheet — R.O.C.K. Framework</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #6AC19D;
+      --secondary: #039DFF;
+      --accent: #EF7847;
+      --warning: #FFD851;
+      --dark: #003F64;
+      --darker: #001D33;
+      --light: #f8fafc;
+      --muted: #64748b;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, sans-serif;
+      background: var(--light);
+      color: var(--darker);
+      line-height: 1.5;
+    }
+
+    .cheatsheet {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 40px 32px;
+    }
+
+    @media print {
+      .cheatsheet {
+        padding: 20px;
+        max-width: 100%;
+      }
+      .no-print { display: none; }
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 32px;
+      padding-bottom: 24px;
+      border-bottom: 2px solid var(--dark);
+    }
+
+    .header h1 {
+      font-size: 2rem;
+      font-weight: 800;
+      color: var(--dark);
+      margin-bottom: 8px;
+    }
+
+    .header p {
+      color: var(--muted);
+      font-size: 1rem;
+    }
+
+    .section {
+      margin-bottom: 28px;
+    }
+
+    .section-title {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--dark);
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .rock-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+    }
+
+    .rock-card {
+      padding: 16px;
+      border-radius: 8px;
+      border-left: 4px solid;
+    }
+
+    .rock-card.role {
+      background: rgba(239, 120, 71, 0.08);
+      border-color: var(--accent);
+    }
+
+    .rock-card.objective {
+      background: rgba(3, 157, 255, 0.08);
+      border-color: var(--secondary);
+    }
+
+    .rock-card.context {
+      background: rgba(106, 193, 157, 0.08);
+      border-color: var(--primary);
+    }
+
+    .rock-card.keys {
+      background: rgba(255, 216, 81, 0.15);
+      border-color: var(--warning);
+    }
+
+    .rock-card h3 {
+      font-size: 1rem;
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+
+    .rock-card.role h3 { color: var(--accent); }
+    .rock-card.objective h3 { color: var(--secondary); }
+    .rock-card.context h3 { color: var(--primary); }
+    .rock-card.keys h3 { color: #b8860b; }
+
+    .rock-card .question {
+      font-weight: 600;
+      font-size: 0.9rem;
+      color: var(--darker);
+      margin-bottom: 6px;
+    }
+
+    .rock-card .example {
+      font-size: 0.8rem;
+      color: var(--muted);
+      font-style: italic;
+    }
+
+    .example-box {
+      background: var(--darker);
+      color: var(--light);
+      border-radius: 8px;
+      padding: 16px;
+      font-family: 'Monaco', 'Menlo', monospace;
+      font-size: 0.8rem;
+      line-height: 1.6;
+      white-space: pre-wrap;
+    }
+
+    .example-box .label {
+      color: var(--primary);
+      font-family: 'Inter', sans-serif;
+      font-weight: 600;
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 8px;
+      display: block;
+    }
+
+    .tag {
+      display: inline-block;
+      font-weight: 600;
+      font-size: 0.75rem;
+      padding: 1px 4px;
+      border-radius: 3px;
+      margin-right: 4px;
+    }
+
+    .tag.r { background: var(--accent); color: white; }
+    .tag.o { background: var(--secondary); color: white; }
+    .tag.c { background: var(--primary); color: white; }
+    .tag.k { background: var(--warning); color: var(--darker); }
+
+    .tips-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+    }
+
+    .tip {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      padding: 12px;
+      background: white;
+      border: 1px solid #e2e8f0;
+      border-radius: 6px;
+    }
+
+    .tip-icon {
+      font-size: 1.2rem;
+      flex-shrink: 0;
+    }
+
+    .tip-content h4 {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--dark);
+      margin-bottom: 2px;
+    }
+
+    .tip-content p {
+      font-size: 0.75rem;
+      color: var(--muted);
+    }
+
+    .comparison {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    .comparison-side {
+      padding: 12px;
+      border-radius: 6px;
+      font-size: 0.85rem;
+    }
+
+    .comparison-side.bad {
+      background: rgba(239, 120, 71, 0.1);
+      border: 1px solid rgba(239, 120, 71, 0.3);
+    }
+
+    .comparison-side.good {
+      background: rgba(106, 193, 157, 0.1);
+      border: 1px solid rgba(106, 193, 157, 0.3);
+    }
+
+    .comparison-side h4 {
+      font-size: 0.8rem;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+
+    .comparison-side.bad h4 { color: var(--accent); }
+    .comparison-side.good h4 { color: var(--primary); }
+
+    .comparison-side p {
+      font-size: 0.8rem;
+      color: var(--muted);
+    }
+
+    .footer {
+      margin-top: 24px;
+      padding-top: 16px;
+      border-top: 1px solid #e2e8f0;
+      text-align: center;
+      color: var(--muted);
+      font-size: 0.75rem;
+    }
+
+    .footer a {
+      color: var(--secondary);
+      text-decoration: none;
+    }
+
+    .print-btn {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: var(--dark);
+      color: white;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: inherit;
+      font-size: 0.9rem;
+    }
+
+    .print-btn:hover {
+      background: var(--darker);
+    }
+  </style>
+</head>
+<body>
+  <div class="cheatsheet">
+    <div class="header">
+      <h1>🎯 AI Prompting Cheat Sheet</h1>
+      <p>The R.O.C.K. Framework — Your reference for getting better AI outputs</p>
+    </div>
+
+    <div class="section">
+      <div class="section-title">📐 The R.O.C.K. Framework</div>
+      <div class="rock-grid">
+        <div class="rock-card role">
+          <h3>R — Role</h3>
+          <div class="question">Who should the AI be?</div>
+          <div class="example">"You're a senior account manager at a digital agency..."</div>
+        </div>
+        <div class="rock-card objective">
+          <h3>O — Objective</h3>
+          <div class="question">What's the actual goal?</div>
+          <div class="example">"Goal: maintain trust while setting new expectations"</div>
+        </div>
+        <div class="rock-card context">
+          <h3>C — Context</h3>
+          <div class="question">What background matters?</div>
+          <div class="example">"Long-term client (2+ years), detail-oriented, generally understanding"</div>
+        </div>
+        <div class="rock-card keys">
+          <h3>K — Keys</h3>
+          <div class="question">What specifics must be included?</div>
+          <div class="example">"Include: reason, new timeline, prevention steps. 150-200 words."</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title">✨ Example: R.O.C.K. in Action</div>
+      <div class="example-box">
+        <span class="label">Complete Prompt</span><span class="tag r">R</span> You're a senior account manager at a digital agency.
+
+<span class="tag o">O</span> Write an email explaining a 1-week delay. Goal: maintain trust while setting new expectations.
+
+<span class="tag c">C</span> Client: CMO of mid-size e-commerce brand. Long-term relationship (2+ years). They're detail-oriented but generally understanding.
+
+<span class="tag k">K</span> Include: reason (design revision needed), new timeline, prevention steps.
+Tone: professional but warm. Length: 150-200 words.</div>
+    </div>
+
+    <div class="section">
+      <div class="section-title">📋 Context: Paste, Don't Describe</div>
+      <div class="comparison">
+        <div class="comparison-side bad">
+          <h4>❌ Describing</h4>
+          <p>"I have some sales data that shows mixed results across channels..."</p>
+        </div>
+        <div class="comparison-side good">
+          <h4>✅ Pasting</h4>
+          <p>"Here's our Q4 data: [actual CSV/table]. Analyze which channels drove most revenue per dollar spent."</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title">💡 Quick Tips</div>
+      <div class="tips-grid">
+        <div class="tip">
+          <span class="tip-icon">📊</span>
+          <div class="tip-content">
+            <h4>Paste raw data</h4>
+            <p>Spreadsheets, CSVs, tables — let AI see what you see</p>
+          </div>
+        </div>
+        <div class="tip">
+          <span class="tip-icon">✍️</span>
+          <div class="tip-content">
+            <h4>Show writing samples</h4>
+            <p>Paste 2-3 paragraphs of content you like for tone matching</p>
+          </div>
+        </div>
+        <div class="tip">
+          <span class="tip-icon">🔄</span>
+          <div class="tip-content">
+            <h4>Iterate, don't accept</h4>
+            <p>First output is a draft. Refine with specific feedback.</p>
+          </div>
+        </div>
+        <div class="tip">
+          <span class="tip-icon">🧹</span>
+          <div class="tip-content">
+            <h4>Know when to reset</h4>
+            <p>Long sessions drift. Fresh prompt often beats fixing.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title">🎯 Your Two Actions This Week</div>
+      <div class="tips-grid">
+        <div class="tip" style="border-left: 3px solid var(--primary);">
+          <span class="tip-icon">1️⃣</span>
+          <div class="tip-content">
+            <h4>Use R.O.C.K. on your next prompt</h4>
+            <p>Before sending, check: Did I set a Role? State the Objective? Provide Context? List the Keys?</p>
+          </div>
+        </div>
+        <div class="tip" style="border-left: 3px solid var(--secondary);">
+          <span class="tip-icon">2️⃣</span>
+          <div class="tip-content">
+            <h4>Paste instead of describe</h4>
+            <p>Next time you're about to describe data or a document, paste it instead.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer">
+      <p>Part of <strong>Gradient OS</strong> — AI Transformation Playbook</p>
+      <p><a href="ai-skills-spectrum.html">View full presentation</a></p>
+    </div>
+  </div>
+
+  <button class="print-btn no-print" onclick="window.print()">🖨️ Print / Save PDF</button>
+</body>
+</html>
